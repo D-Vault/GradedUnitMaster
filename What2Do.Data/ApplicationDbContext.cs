@@ -14,7 +14,7 @@ namespace What2Do.Data
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
-            : base("What2Do", throwIfV1Schema: false)
+            : base  ("What2Do", throwIfV1Schema: false)
         {
         }
 
