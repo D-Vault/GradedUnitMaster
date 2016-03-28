@@ -34,6 +34,9 @@ namespace What2Do.Data
         public Location Location { get; set; }
 
         [Required]
+        [ForeignKey("Type")]
         public int TypeID { get; set; }
+
+        public Type Type { get; set; }
     }
 }

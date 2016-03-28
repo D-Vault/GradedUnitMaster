@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace What2Do.Data
 {
-    class Booking
+    public class Booking
     {
         /// <summary>
         /// Attributes for the booking class along with their getters and setters
@@ -17,8 +17,10 @@ namespace What2Do.Data
         [Key]
         public int BookingID { get; set; }
 
-        [ForeignKey("Account")]
+        [ForeignKey("Customer")]
         public int CustomerID { get; set; }
+
+        public Customer Customer { get; set; }
 
         [Required]
         public float cost { get; set; }

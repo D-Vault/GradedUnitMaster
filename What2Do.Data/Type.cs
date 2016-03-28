@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace What2Do.Data
 {
-    class Type
+    public class Type
     {
         [Key]
         public int TypeID { get; set; }

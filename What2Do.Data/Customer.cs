@@ -6,8 +6,11 @@ using System.Threading.Tasks;
 
 namespace What2Do.Data
 {
-    class Customer:Account
+    public class Customer:Account
     {
         public int CustomerID { get; set; }
+
+        public ICollection<Booking>Booking { get; set; }
+
     }
 }

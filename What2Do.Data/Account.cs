@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace What2Do.Data
 {
-    class Account : ApplicationUser
+    public class Account : ApplicationUser
     {
 
         /// <summary>
@@ -21,6 +21,8 @@ namespace What2Do.Data
 
         [ForeignKey("CardDetail")]
         public int CardDetailID { get; set; }
+
+        public ICollection<CardDetails>Cards { get; set; }
 
         [Required]
         [StringLength(75)]

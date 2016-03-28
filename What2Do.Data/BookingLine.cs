@@ -6,13 +6,17 @@ namespace What2Do.Data
 {
     public class BookingLine
     {
-        [Key]
+
+        [ForeignKey("Event")]
         public int EventID { get; set; }
+
         [ForeignKey("Booking")]
         public int BookingID { get; set; }
+
         [Required]
         public DateTime EventBookingDate { get; set; }
-        [Required]
+        
         public Event Event { get; set; }
+        public Booking Booking { get; set; }
     }
 }

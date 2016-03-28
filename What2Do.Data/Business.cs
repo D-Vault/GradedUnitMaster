@@ -9,5 +9,7 @@ namespace What2Do.Data
     class Business
     {
         public int BusinessID { get; set; }
+
+        public ICollection<Event> Events { get; set; }
     }
 }
