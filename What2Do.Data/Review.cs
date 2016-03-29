@@ -8,20 +8,39 @@ using System.Threading.Tasks;
 
 namespace What2Do.Data
 {
-    class Review
+
+    /// <summary>
+    /// Review Class contains the data for customer reviews of a business
+    /// </summary>
+ 
+    public class Review
     {
-        [Key]
+
+        /// <summary>
+        /// Attributes of the review class 
+        /// </summary>
+      
+        
         public int ReviewID { get; set; }
         public int Rating { get; set; }
+
         [MinLength(1)]
         public string Comment { get; set; }
 
-        [ForeignKey("Customer")]
+        
         public int CustomerID { get; set; }
-        public Customer Customer { get; set; }
+        public virtual Customer Customer { get; set; }
 
-        [ForeignKey("Business")]
+     
         public int BusinessID { get; set; }
-        public Business Business { get; set; }
+        public virtual Business Business { get; set; }
+
+        public Review()
+        {
+            Customer = new Customer();
+            Business = new Business();
+            Comment = " ";
+            Rating = 0;
+        }
     }
 }
