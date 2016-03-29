@@ -6,6 +6,7 @@ using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
 using Owin;
 using GradedUnitMaster.Models;
+using What2Do.Data;
 
 namespace GradedUnitMaster
 {
