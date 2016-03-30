@@ -7,8 +7,8 @@ using PayPal.Api;
 using System.Configuration;
 
 namespace GradedUnitMaster.Controllers
-{
-    public class PaypalController : Controller
+{ 
+    /*public class PaypalController : Controller
     {
         private Payment Payment { get; set; }
 
@@ -87,7 +87,7 @@ namespace GradedUnitMaster.Controllers
                 invoice_number = Convert.ToString(rdm.NextDouble() * 100)
             };
 
-    */
+
 
             //Now, we have to make a list of transaction and the transaction object
             //for credit card payments, set the CreditCard which we made above
@@ -154,4 +154,5 @@ namespace GradedUnitMaster.Controllers
 
 
     }
+    */
 }

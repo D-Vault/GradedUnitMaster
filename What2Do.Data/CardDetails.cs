@@ -12,7 +12,7 @@ namespace What2Do.Data
     public class CardDetails
     {
         
-        
+        [Key]
         public int DetailID { get; set; }
        
         public int CardNo { get; set; }

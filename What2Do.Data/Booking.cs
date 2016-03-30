@@ -24,7 +24,7 @@ namespace What2Do.Data
         public virtual Customer Customer { get; set; }
 
        
-        public float cost { get; set; }
+        public decimal cost { get; set; }
 
         [StringLength(50)]
         public string PaymentMethod { get; set; }
@@ -33,7 +33,7 @@ namespace What2Do.Data
         public int PaymentID { get; set; }
 
       
-        public DateTime BookingDate { get; set; }
+        public virtual DateTime BookingDate { get; set; }
 
   
         public virtual ICollection<BookingLine> Bookings { get; set; }
@@ -41,7 +41,7 @@ namespace What2Do.Data
         public Booking()
         {
             Customer = new Customer();
-            cost = 0.00f;
+            cost = 0;
             PaymentMethod = "";
             BookingDate = DateTime.Now;
         }

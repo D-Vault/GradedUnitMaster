@@ -8,13 +8,13 @@ namespace What2Do.Data
     public class BookingLine
     {
 
-       
+       [Key]
         public int EventID { get; set; }
 
         public int BookingID { get; set; }
 
         
-        public DateTime EventBookingDate { get; set; }
+        public virtual DateTime EventBookingDate { get; set; }
         
         public virtual Event Event { get; set; }
         public virtual Booking Booking { get; set; }

@@ -1,10 +1,5 @@
 ﻿using Microsoft.AspNet.Identity.EntityFramework;
-using System;
-using System.Collections.Generic;
 using System.Data.Entity;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace What2Do.Data
 {
@@ -17,12 +12,15 @@ namespace What2Do.Data
         /// <summary>
         /// Tables in the Database
         /// </summary>
-        public IDbSet<Account> Account { get; set; }
-        public IDbSet<CardDetails>Cards { get; set; }
-        public IDbSet<Event>Events { get; set; }
+        public IDbSet<Staff> Staff { get; set;}
+        public IDbSet<CardDetails> Cards { get; set; }
+        public IDbSet<Event> Events { get; set; }
         public IDbSet<Booking> Bookings { get; set; }
         public IDbSet<Location> Locations { get; set; }
-        public IDbSet<Type>Types { get; set; }
+        public IDbSet<Type> Types { get; set; }
+        public IDbSet<Business>Business { get; set; }
+        public IDbSet<Customer>Customers { get; set; }
+        public IDbSet<BookingLine>BookingLine {get;set;}
 
 
         public ApplicationDbContext()

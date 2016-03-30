@@ -24,7 +24,7 @@ namespace What2Do.Data
         public int ReviewID { get; set; }
         public int Rating { get; set; }
 
-        [MinLength(1)]
+       
         public string Comment { get; set; }
 
         

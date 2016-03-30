@@ -15,10 +15,10 @@ namespace What2Do.Data
        
         public int BusinessID { get; set; }
 
-        public float EventPrice { get; set; }
+        public decimal EventPrice { get; set; }
 
        
-        public ICollection<DateTime> EventDates { get; set; }
+        public virtual ICollection<DateTime> EventDates { get; set; }
 
       
         public string EventName { get; set; }
@@ -44,7 +44,7 @@ namespace What2Do.Data
 
         public Event()
         {
-            EventPrice = 0.00f;
+            EventPrice = 0;
             EventName = " ";
             Description = " ";
             Restrictions = " ";
