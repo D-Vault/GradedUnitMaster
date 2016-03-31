@@ -8,7 +8,7 @@ using System.Configuration;
 
 namespace GradedUnitMaster.Controllers
 { 
-    /*public class PaypalController : Controller
+    /*public class PaypalController : MainController
     {
         private Payment Payment { get; set; }
 

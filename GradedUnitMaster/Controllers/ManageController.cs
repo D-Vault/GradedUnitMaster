@@ -11,7 +11,7 @@ using GradedUnitMaster.Models;
 namespace GradedUnitMaster.Controllers
 {
     [Authorize]
-    public class ManageController : Controller
+    public class ManageController : MainController
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;

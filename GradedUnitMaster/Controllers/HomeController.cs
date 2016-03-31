@@ -3,14 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using What2Do.Data;
 
 namespace GradedUnitMaster.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : MainController
     {
+
+        
         public ActionResult Index()
         {
+            this.IsBusiness();
+            this.IsCustomer();
+            this.IsStaff();
+            
             return View();
+            
         }
 
         public ActionResult About()

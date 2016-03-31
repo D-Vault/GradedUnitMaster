@@ -14,7 +14,7 @@ using What2Do.Data;
 namespace GradedUnitMaster.Controllers
 {
     [Authorize]
-    public class AccountController : Controller
+    public class AccountController : MainController
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
