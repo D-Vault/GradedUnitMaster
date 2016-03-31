@@ -12,6 +12,8 @@ using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using GradedUnitMaster.Models;
 using What2Do.Data;
+using Twilio;
+using System.Diagnostics;
 
 namespace GradedUnitMaster
 {
@@ -24,11 +26,24 @@ namespace GradedUnitMaster
         }
     }
 
+
+    /// <summary>
+    /// Web service which allows for text messages to be
+    /// sent to customers
+    /// </summary>
     public class SmsService : IIdentityMessageService
     {
         public Task SendAsync(IdentityMessage message)
         {
-            // Plug in your SMS service here to send a text message.
+            var Twilio = new TwilioRestClient(
+             System.Configuration.ConfigurationManager.AppSettings["SMSAccountIdentification"],
+             System.Configuration.ConfigurationManager.AppSettings["SMSAccountPassword"]);
+
+            var Result = Twilio.SendMessage(
+                System.Configuration.ConfigurationManager.AppSettings["SMSAccountFrom"],
+                message.Destination, message.Body);
+
+            Trace.TraceInformation(Result.Status);
             return Task.FromResult(0);
         }
     }
