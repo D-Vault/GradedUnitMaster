@@ -11,7 +11,10 @@ namespace What2Do.Data
     
     public class CardDetails
     {
-        
+        /// <summary>
+        /// Attributes
+        /// </summary>
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         public int DetailID { get; set; }
        

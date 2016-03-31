@@ -15,7 +15,8 @@ namespace What2Do.Data
         /// Attributes for the booking class along with their getters and setters
         /// </summary>
 
-        
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Key]
         public int BookingID { get; set; }
 
         [Required]
@@ -38,6 +39,10 @@ namespace What2Do.Data
   
         public virtual ICollection<BookingLine> Bookings { get; set; }
 
+
+        /// <summary>
+        /// Default Constructor
+        /// </summary>
         public Booking()
         {
             Customer = new Customer();

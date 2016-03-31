@@ -23,6 +23,9 @@ namespace What2Do.Data
         public IDbSet<BookingLine>BookingLine {get;set;}
 
 
+        /// <summary>
+        /// Default Constructor
+        /// </summary>
         public ApplicationDbContext()
             : base  ("Connection", throwIfV1Schema: false)
         {

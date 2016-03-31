@@ -18,8 +18,9 @@ namespace What2Do.Data
         /// <summary>
         /// Attributes of the Type class
         /// </summary>
-      
-        
+
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Key]
         public int TypeID { get; set; }
 
         [Required]

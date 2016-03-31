@@ -10,9 +10,13 @@ namespace What2Do.Data
    
     public class Business : Account
     {
-      
+        /// <summary>
+        /// Attributes
+        /// </summary>
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int BusinessID { get; set; }
 
         public virtual ICollection<Event> Events { get; set; }
+        public virtual ICollection<Review> Reviews { get; set; }
     }
 }

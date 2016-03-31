@@ -19,22 +19,31 @@ namespace What2Do.Data
         /// <summary>
         /// Attributes of the review class 
         /// </summary>
-      
-        
+
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Key]
         public int ReviewID { get; set; }
+
+
         public int Rating { get; set; }
 
        
         public string Comment { get; set; }
 
         
-        public int CustomerID { get; set; }
+        public int CustomerId { get; set; }
+        
         public virtual Customer Customer { get; set; }
 
-     
-        public int BusinessID { get; set; }
+        
+        public int BusinessId { get; set; }
+        
         public virtual Business Business { get; set; }
 
+
+        /// <summary>
+        /// Default Constructor
+        /// </summary>
         public Review()
         {
             Customer = new Customer();

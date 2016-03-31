@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace What2Do.Data
 {
-   
+   [Table("Accounts")]
     public class Account : ApplicationUser
     {
 
@@ -16,7 +16,7 @@ namespace What2Do.Data
         /// Attributes for Accounts in Database
         /// </summary>
 
-        
+        public virtual ICollection<Booking> Bookings { get; set; }
         public virtual ICollection<CardDetails>Cards { get; set; }
 
        

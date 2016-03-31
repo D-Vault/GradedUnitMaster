@@ -8,8 +8,11 @@ namespace What2Do.Data
     
     public class Event
     {
-       
-       
+        /// <summary>
+        /// Attributes 
+        /// </summary>
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Key]
         public int EventID { get; set; }
 
        
@@ -32,16 +35,21 @@ namespace What2Do.Data
 
         public int Capacity { get; set; }
 
-        
+        [ForeignKey("Location")]
         public int LocationID { get; set; }
+
         public virtual Location Location { get; set; }
 
         
-        
+        [ForeignKey("Type")]
         public int TypeID { get; set; }
 
         public virtual Type Type { get; set; }
 
+
+        /// <summary>
+        /// Default constructor
+        /// </summary>
         public Event()
         {
             EventPrice = 0;
