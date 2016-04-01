@@ -7,18 +7,23 @@ using PayPal.Api;
 using System.Configuration;
 using Microsoft.AspNet.Identity;
 using What2Do.Data;
+using GradedUnitMaster.Models;
 
 namespace GradedUnitMaster.Controllers
-{ 
+{
     public class PaypalController : MainController
     {
         private Payment Payment { get; set; }
 
-        // GET: Paypal
-        public ActionResult Index(int BookingId    )
+        /// <summary>
+        /// Displays the cards that the user can user, or add another
+        /// </summary>
+        /// <param name="Booking">The booking to be placed</param>
+        /// <returns></returns>
+        public ActionResult Index(Booking booking)
         {
-            
-            if (this.IsBusiness() || this.IsCustomer() || this.getAccount() !=null)
+
+            if (this.IsBusiness() || this.IsCustomer() || this.getAccount() != null)
             {
                 Account a = getAccount();
                 ICollection<CardDetails> cards = a.Cards;
@@ -32,18 +37,17 @@ namespace GradedUnitMaster.Controllers
             return View();
         }
 
-      
-        
+
+
         /// <summary>
         /// Method executes the process of paying for a booking by card
         /// </summary>
         /// <returns>Result of the process</returns>
-        public ActionResult PaymentWithCreditCard(int CardID)
+        public ActionResult PaymentWithCreditCard(CardDetails card, Booking booking)
         {
             Account account = getAccount();
 
-            CardDetails card = getAccount().Cards.Where(c=> c.DetailID == CardID).FirstOrDefault();
-            
+           
             //create and item for which you are takign payment
             //if you need to add more items in the list
             //then you will need to create multiple item objects or use some loop to instanciate object
@@ -71,14 +75,14 @@ namespace GradedUnitMaster.Controllers
 
             };
 
-           // Now create an object of credit card and add above details to it 
+            // Now create an object of credit card and add above details to it 
             //Please replace your credit card details over here which you got from paypal
             CreditCard crdtCard = new CreditCard()
             {
                 billing_address = billingAddress,
                 expire_month = 12,
                 expire_year = 2020,
-                first_name= account.Name,
+                first_name = account.Name,
                 last_name = account.Name,
                 number = "4137350957263509",
                 type = "visa"
@@ -150,7 +154,7 @@ namespace GradedUnitMaster.Controllers
                 //to athenticate the p  ayment to facillitator account. 
                 //An access token could be an alphanumeric string 
 
-               APIContext apiContext = System.Configuration.Configuration.GetAPIContext();
+                APIContext apiContext = PaypalConfig.GetAPIContext();
 
                 //Create is a payment class function which actually sends the payment details
                 //to the paypal API for the payment. The function is passed with the ApiContext
@@ -160,19 +164,155 @@ namespace GradedUnitMaster.Controllers
 
                 //if the createdPayment.state is "approved" it means the payment was successful else not
                 if (createdPayment.state.ToLower() != "approved")
-               {
+                {
                     return View("SuccessView");
-               }
+                    string message = "Hi there " + account.Name + "! Your booking has been made. Please go to the website to get info " +
+                        "on your bookings";
+                    this.sendMessage(message, account.MobileNo);
+                }
 
             }
             catch (PayPal.PayPalException ex)
             {
                 return View("FailureView");
             }
-            
-            return View("SuccessView");}
+
+            return View("SuccessView"); }
+
+
+    
+        /// <summary>
+        /// Executes the paypal method of payment 
+        /// </summary>
+        /// <returns>The resultant view of payment success, or failure</returns>
+    public ActionResult PaymentWithPaypal(Booking booking)
+    {
+        APIContext apiContext = PaypalConfig.GetAPIContext();
+        try
+        {
+            string payerId = Request.Params["PayerID"];
+
+            if (string.IsNullOrEmpty(payerId))
+            {
+                string baseURI = Request.Url.Scheme + "://" + Request.Url.Authority +
+                    "/Home/PaymentWithPaypal?";
+
+
+                var guid = Convert.ToString((new Random().Next(100000)));
+
+                var createdPayment = this.CreatePayment(apiContext, baseURI + "guid=" + guid);
+
+                var links = createdPayment.links.GetEnumerator();
+
+                string paypalRedirectUrl = null;
+
+                while (links.MoveNext())
+                {
+                    Links lnk = links.Current;
+
+                    if (lnk.rel.ToLower().Trim().Equals("approval_url"))
+                    {
+                        paypalRedirectUrl = lnk.href;
+                    }
+                }
+
+                Session.Add(guid, createdPayment.id);
+
+                return Redirect(paypalRedirectUrl);
+            }
+            else
+            {
+
+                var guid = Request.Params["guid"];
+
+                var executedPayment = ExecutePayment(apiContext, payerId, Session[guid] as string);
+
+                if (executedPayment.state.ToLower() != "approved")
+                {
+                    return View("FailureView");
+                }
+
+            }
+        }
+        catch (Exception e)
+        {
+            return View("FailureView");
+        }
+
+        return View("SuccessView");
+    }
+
+
+    private Payment ExecutePayment(APIContext apiContext, string payerID, string paymentId)
+    {
+        var PaymentExecution = new PaymentExecution() { payer_id = payerID };
+        this.Payment = new Payment() { id = paymentId };
+        return this.Payment.Execute(apiContext, PaymentExecution);
+    }
+
+    private Payment CreatePayment(APIContext apiContext, string redirectURL)
+    {
+        var itemList = new ItemList() { items = new List<Item>() };
+
+        itemList.items.Add(new Item()
+        {
+            name = "Item Name",
+            currency = "GBP",
+            price = "5",
+            quantity = "1",
+            sku = "sku"
+        });
+
+        var payer = new Payer()
+        {
+
+            payment_method = "paypal"
+
+        };
+
+        var redirUrls = new RedirectUrls()
+        {
+            cancel_url = redirectURL,
+            return_url = redirectURL
+        };
+
+        var details = new Details()
+        {
+            tax = "1",
+            shipping = "1",
+            subtotal = "5"
+        };
+
+        var ammount = new Amount()
+        {
+            currency = "GBP",
+            total = "7",
+            details = details
+        };
+
+        var TransactionList = new List<Transaction>();
+        Random rdm = new Random();
+        TransactionList.Add(new Transaction()
+        {
+            description = "Transaction Description",
+            invoice_number = Convert.ToString(rdm.Next(1, 20)),
+            amount = ammount,
+            item_list = itemList
+        });
+
+        this.Payment = new Payment()
+        {
+
+            intent = "sale",
+            payer = payer,
+            transactions = TransactionList,
+            redirect_urls = redirUrls
+        };
+
+        return this.Payment.Create(apiContext);
 
 
     }
-    
+
+}
 }

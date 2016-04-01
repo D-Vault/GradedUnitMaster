@@ -1,14 +1,20 @@
 ﻿@model IEnumerable<What2Do.Data.CardDetails>
 
+
 @{
     ViewBag.Title = "Index";
+    var Booking = TempData["Booking"];
 }
 
-<h2>Index</h2>
+<h2>Booking Details</h2>
 
+
+<h2>Card Details</h2>
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
+@if (Model.Any())
+{
 <table class="table">
     <tr>
         <th>
@@ -59,12 +65,14 @@
             @Html.DisplayFor(modelItem => item.SecurityCode)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.DetailID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.DetailID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.DetailID })
-            @Html.ActionLink("Select", "PaymentWithCard", new { id = item.DetailID})
+            @Html.ActionLink("Edit", "Edit", new { id = item.DetailID }) |
+            @Html.ActionLink("Details", "Details", new { id = item.DetailID }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.DetailID })
+            @Html.ActionLink("Select", "PaymentWithCard", new { id = item.DetailID })
         </td>
     </tr>
 }
-
+    
 </table>
+}
+@Html.ActionLink("Payment With PayPal", "PaymentsWithPayPal", "Paypal", new { new { @class="btn btn-default" })

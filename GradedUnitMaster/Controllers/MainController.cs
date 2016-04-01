@@ -74,14 +74,16 @@ namespace GradedUnitMaster.Controllers
         /// <summary>
         /// Method sends a message to the user
         /// </summary>
-        public void sendMessage(Models.Message message)
+        /// <param name="message">The message to be sent to user</param>
+        /// <param name="number">The mobile number to send to the user</param>
+        public void sendMessage(string message, string number)
         {
             var Twilio = new TwilioRestClient(
            System.Configuration.ConfigurationManager.AppSettings["SMSAccountIdentification"],
            System.Configuration.ConfigurationManager.AppSettings["SMSAccountPassword"]);
 
             Twilio.SendMessage(
-            System.Configuration.ConfigurationManager.AppSettings["SMSAccountFrom"], message.recepient, message.body);
+            System.Configuration.ConfigurationManager.AppSettings["SMSAccountFrom"], number, message);
         }
 
 

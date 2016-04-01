@@ -22,7 +22,12 @@ namespace What2Do.Data
         [Required]
         public int CustomerID { get; set; }
 
-        public virtual Customer Customer { get; set; }
+        /// <summary>
+        /// Highlight attribute of database: 
+        /// This attribute can be of type business 
+        /// as a business customer
+        /// </summary>
+        public virtual Account Customer_Account { get; set; }
 
        
         public decimal cost { get; set; }
