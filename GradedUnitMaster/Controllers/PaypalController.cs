@@ -15,7 +15,7 @@ namespace GradedUnitMaster.Controllers
         private Payment Payment { get; set; }
 
         // GET: Paypal
-        public ActionResult Index()
+        public ActionResult Index(int BookingId    )
         {
             
             if (this.IsBusiness() || this.IsCustomer() || this.getAccount() !=null)
@@ -146,23 +146,23 @@ namespace GradedUnitMaster.Controllers
                 //basically we are sending the clientID and clientSecret Key in this function 
                 //to get the context from the paypal API to make the payment. 
 
-                //basically, apiContext object has a accesstoken which is sent by the paypal
+                //apiContext object has a accesstoken which is sent by the paypal
                 //to athenticate the p  ayment to facillitator account. 
                 //An access token could be an alphanumeric string 
 
-               // APIContext apiContext = System.Configuration.Configuration.GetAPIContext();
+               APIContext apiContext = System.Configuration.Configuration.GetAPIContext();
 
                 //Create is a payment class function which actually sends the payment details
                 //to the paypal API for the payment. The function is passed with the ApiContext
                 //which we recived above.
 
-               // Payment createdPayment = pymnt.Create(apiContext);
+                Payment createdPayment = pymnt.Create(apiContext);
 
                 //if the createdPayment.state is "approved" it means the payment was successful else not
-               // if (createdPayment.state.ToLower() != "approved")
-              //  {
-               //     return View("SuccessView");
-              //  }
+                if (createdPayment.state.ToLower() != "approved")
+               {
+                    return View("SuccessView");
+               }
 
             }
             catch (PayPal.PayPalException ex)

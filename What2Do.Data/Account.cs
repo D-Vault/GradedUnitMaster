@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace What2Do.Data
 {
-  
+  [Table("Account")]
     public class Account : ApplicationUser
     {
 

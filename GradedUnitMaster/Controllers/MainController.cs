@@ -18,7 +18,7 @@ namespace GradedUnitMaster.Controllers
         /// <summary>
         /// Attributes
         /// </summary>
-        public ApplicationDbContext db = new ApplicationDbContext();
+        protected ApplicationDbContext db = new ApplicationDbContext();
 
 
         /// <summary>
