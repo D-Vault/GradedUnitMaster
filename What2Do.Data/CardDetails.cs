@@ -21,8 +21,14 @@ namespace What2Do.Data
         public int CardNo { get; set; }
       
         public int SortCode { get; set; }
+        
+        public int ExpireMonth { get; set; }
+
+        public int ExpireYear { get; set; }
        
-        public virtual Customer Customer { get; set; }
+        public string Type { get; set; }
+
+        public virtual Account Account { get; set; }
 
         [StringLength(75)]
         public string CardHolder { get; set; }
@@ -36,5 +42,19 @@ namespace What2Do.Data
             CardHolder = " ";
             SecurityCode = 0;
         }
+
+        /* Now create an object of credit card and add above details to it 
+            //Please replace your credit card details over here which you got from paypal
+            CreditCard crdtCard = new CreditCard()
+            {
+                billing_address = billingAddress,
+                expire_month = 12,
+                expire_year = 2020,
+                first_name = "Ross",
+                last_name = "McArthur",
+                number = "4137350957263509",
+                type = "visa"
+            };
+            */
     }
 }

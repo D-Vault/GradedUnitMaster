@@ -5,25 +5,45 @@ using System.Web;
 using System.Web.Mvc;
 using PayPal.Api;
 using System.Configuration;
+using Microsoft.AspNet.Identity;
+using What2Do.Data;
 
 namespace GradedUnitMaster.Controllers
 { 
-    /*public class PaypalController : MainController
+    public class PaypalController : MainController
     {
         private Payment Payment { get; set; }
 
         // GET: Paypal
         public ActionResult Index()
         {
+            
+            if (this.IsBusiness() || this.IsCustomer() || this.getAccount() !=null)
+            {
+                Account a = getAccount();
+                ICollection<CardDetails> cards = a.Cards;
+                return View(cards.ToList());
+            }
+            else
+            {
+                RedirectToAction("Index", "Home");
+            }
+
             return View();
         }
+
+      
         
         /// <summary>
         /// Method executes the process of paying for a booking by card
         /// </summary>
         /// <returns>Result of the process</returns>
-        public ActionResult PaymentWithCreditCard()
+        public ActionResult PaymentWithCreditCard(int CardID)
         {
+            Account account = getAccount();
+
+            CardDetails card = getAccount().Cards.Where(c=> c.DetailID == CardID).FirstOrDefault();
+            
             //create and item for which you are takign payment
             //if you need to add more items in the list
             //then you will need to create multiple item objects or use some loop to instanciate object
@@ -44,22 +64,22 @@ namespace GradedUnitMaster.Controllers
             //Address for the payment 
             Address billingAddress = new Address()
             {
-                city = "Glasgow",
+                city = account.Town,
                 country_code = "GB",
-                line1 = "23rd street kew gardens",
-                postal_code = "43210",
+                line1 = account.Street,
+                postal_code = account.Postcode
 
             };
 
-           /* Now create an object of credit card and add above details to it 
+           // Now create an object of credit card and add above details to it 
             //Please replace your credit card details over here which you got from paypal
             CreditCard crdtCard = new CreditCard()
             {
                 billing_address = billingAddress,
                 expire_month = 12,
                 expire_year = 2020,
-                first_name = "Ross",
-                last_name = "McArthur",
+                first_name= account.Name,
+                last_name = account.Name,
                 number = "4137350957263509",
                 type = "visa"
             };
@@ -130,19 +150,19 @@ namespace GradedUnitMaster.Controllers
                 //to athenticate the p  ayment to facillitator account. 
                 //An access token could be an alphanumeric string 
 
-                APIContext apiContext = Configuration.GetAPIContext();
+               // APIContext apiContext = System.Configuration.Configuration.GetAPIContext();
 
                 //Create is a payment class function which actually sends the payment details
                 //to the paypal API for the payment. The function is passed with the ApiContext
                 //which we recived above.
 
-                Payment createdPayment = pymnt.Create(apiContext);
+               // Payment createdPayment = pymnt.Create(apiContext);
 
                 //if the createdPayment.state is "approved" it means the payment was successful else not
-                if (createdPayment.state.ToLower() != "approved")
-                {
-                    return View("SuccessView");
-                }
+               // if (createdPayment.state.ToLower() != "approved")
+              //  {
+               //     return View("SuccessView");
+              //  }
 
             }
             catch (PayPal.PayPalException ex)
@@ -154,5 +174,5 @@ namespace GradedUnitMaster.Controllers
 
 
     }
-    */
+    
 }

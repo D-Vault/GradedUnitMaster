@@ -13,7 +13,7 @@ namespace What2Do.Data
         /// Tables in the Database
         /// </summary>
         public IDbSet<Staff> Staff { get; set;}
-        public IDbSet<CardDetails> Cards { get; set; }
+      
         public IDbSet<Event> Events { get; set; }
         public IDbSet<Booking> Bookings { get; set; }
         public IDbSet<Location> Locations { get; set; }
@@ -39,5 +39,7 @@ namespace What2Do.Data
         {
             return new ApplicationDbContext();
         }
+
+        public System.Data.Entity.DbSet<What2Do.Data.CardDetails> CardDetails { get; set; }
     }
 }

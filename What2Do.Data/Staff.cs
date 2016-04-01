@@ -18,7 +18,7 @@ namespace What2Do.Data
         /// <summary>
         /// Attributes of the Staff Class
         /// </summary>
-     
+        [Key]
         public int StaffID { get; set; }
 
         [StringLength(50)]

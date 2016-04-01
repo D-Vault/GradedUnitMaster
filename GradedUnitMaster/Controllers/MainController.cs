@@ -9,6 +9,10 @@ using Microsoft.AspNet.Identity;
 
 namespace GradedUnitMaster.Controllers
 {
+    /// <summary>
+    /// Is the root controller for the system, supplying
+    /// general operations to sub-classes
+    /// </summary>
     public class MainController : Controller
     {
         /// <summary>
@@ -49,11 +53,11 @@ namespace GradedUnitMaster.Controllers
             return isBusiness;
         }
 
-      /// <summary>
-      /// Checks to see if a customer account has logged in
-      /// </summary>
-      /// <returns>the outcome of checking that the id 
-      /// matches an existing customer</returns>
+        /// <summary>
+        /// Checks to see if a customer account has logged in
+        /// </summary>
+        /// <returns>the outcome of checking that the id 
+        /// matches an existing customer</returns>
         public bool IsCustomer()
         {
 
@@ -72,13 +76,32 @@ namespace GradedUnitMaster.Controllers
         /// </summary>
         public void sendMessage(Models.Message message)
         {
-                var Twilio = new TwilioRestClient(
-               System.Configuration.ConfigurationManager.AppSettings["SMSAccountIdentification"],
-               System.Configuration.ConfigurationManager.AppSettings["SMSAccountPassword"]);
+            var Twilio = new TwilioRestClient(
+           System.Configuration.ConfigurationManager.AppSettings["SMSAccountIdentification"],
+           System.Configuration.ConfigurationManager.AppSettings["SMSAccountPassword"]);
 
-                Twilio.SendMessage(
-                System.Configuration.ConfigurationManager.AppSettings["SMSAccountFrom"], message.recepient, message.body);
-            }
+            Twilio.SendMessage(
+            System.Configuration.ConfigurationManager.AppSettings["SMSAccountFrom"], message.recepient, message.body);
         }
-      
+
+
+        /// <summary>
+        /// Finds current user logged into the system
+        /// </summary>
+        /// <returns>the user found, otherwise null</returns>
+        public What2Do.Data.Account getAccount()
+        {
+            var user = this.User.Identity.GetUserId();
+
+            What2Do.Data.Account foundAccount = db.Users.OfType<What2Do.Data.Account>()
+                                                    .Where(u => u.Id == user).FirstOrDefault();
+
+            if (foundAccount != null) return foundAccount;
+            else return null;
+    
+
     }
+
+    }
+}
+

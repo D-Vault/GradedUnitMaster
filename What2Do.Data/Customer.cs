@@ -15,7 +15,7 @@ namespace What2Do.Data
         /// Attributes
         /// </summary>
 
-        
+        [Key]
         public int CustomerID { get; set; }
 
         

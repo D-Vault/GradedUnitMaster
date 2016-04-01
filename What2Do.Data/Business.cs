@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
@@ -13,7 +14,9 @@ namespace What2Do.Data
         /// <summary>
         /// Attributes
         /// </summary>
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        
+     
+        [Key]
         public int BusinessID { get; set; }
 
         public virtual ICollection<Event> Events { get; set; }
