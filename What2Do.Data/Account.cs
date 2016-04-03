@@ -21,9 +21,12 @@ namespace What2Do.Data
 
        
         [StringLength(75)]
-        public string Name { get; set; }
+        public string FirstName { get; set; }
 
-      
+        [StringLength(75)]
+        public string Surname { get; set; }
+
+
         [StringLength(60)]
         public string Street { get; set; }
 
@@ -45,7 +48,8 @@ namespace What2Do.Data
 
         public Account()
         {
-            Name = " ";
+            FirstName = " ";
+            Surname = " ";
             Street = " ";
             Town = " ";
             Postcode = " ";

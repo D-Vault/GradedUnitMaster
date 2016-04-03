@@ -1,6 +1,4 @@
-﻿@{ 
-    
-}
+﻿@model GradedUnitMaster.Controllers.MainController
 <!DOCTYPE html>
 <html>
 <head>
@@ -27,6 +25,12 @@
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
                     
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    @if (Model.IsStaff())
+                    {
+                        <li>@Html.ActionLink("Event Requests", "Requests", "Staff")</li>
+                        <li>@Html.ActionLink("Users", "", "")</li>
+                        
+                    }
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>

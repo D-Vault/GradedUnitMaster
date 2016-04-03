@@ -10,13 +10,13 @@ namespace GradedUnitMaster.Controllers
     public class HomeController : MainController
     {
 
-        
+        /// <summary>
+        /// Action for the home page of system
+        /// </summary>
+        /// <returns>a view</returns>
         public ActionResult Index()
         {
-            this.IsBusiness();
-            this.IsCustomer();
-            this.IsStaff();
-            
+                        
             return View();
             
         }

@@ -14,14 +14,15 @@ namespace GradedUnitMaster.Controllers
     public class PaypalController : MainController
     {
         private Payment Payment { get; set; }
-
+        private BookingViewModel booking { get; set; }
         /// <summary>
         /// Displays the cards that the user can user, or add another
         /// </summary>
         /// <param name="Booking">The booking to be placed</param>
         /// <returns></returns>
-        public ActionResult Index(Booking booking)
+        public ActionResult Index(BookingViewModel booking)
         {
+            this.booking = booking;
 
             if (this.IsBusiness() || this.IsCustomer() || this.getAccount() != null)
             {
@@ -46,7 +47,7 @@ namespace GradedUnitMaster.Controllers
         public ActionResult PaymentWithCreditCard(CardDetails card, Booking booking)
         {
             Account account = getAccount();
-
+          
            
             //create and item for which you are takign payment
             //if you need to add more items in the list
@@ -80,20 +81,20 @@ namespace GradedUnitMaster.Controllers
             CreditCard crdtCard = new CreditCard()
             {
                 billing_address = billingAddress,
-                expire_month = 12,
-                expire_year = 2020,
-                first_name = account.Name,
-                last_name = account.Name,
-                number = "4137350957263509",
-                type = "visa"
+                expire_month = card.ExpireMonth,
+                expire_year = card.ExpireYear,
+                first_name = account.FirstName,
+                last_name = account.Surname,
+                number = card.CardNo.ToString(),
+                type = card.Type
             };
 
             //Specify details of your payment ammount
             Details details = new Details()
             {
-                shipping = "1",
-                subtotal = "5",
-                tax = "1"
+                fee = "2",
+                subtotal = booking.cost.ToString(),
+                tax = "0"
             };
 
             Amount amnt = new Amount()
@@ -165,10 +166,12 @@ namespace GradedUnitMaster.Controllers
                 //if the createdPayment.state is "approved" it means the payment was successful else not
                 if (createdPayment.state.ToLower() != "approved")
                 {
-                    return View("SuccessView");
-                    string message = "Hi there " + account.Name + "! Your booking has been made. Please go to the website to get info " +
+                    string message = "Hi there " + account.FirstName + "! Your booking has been made. Please go to the website to get info " +
                         "on your bookings";
                     this.sendMessage(message, account.MobileNo);
+
+                    return View("SuccessView");
+                    
                 }
 
             }
@@ -242,7 +245,13 @@ namespace GradedUnitMaster.Controllers
         return View("SuccessView");
     }
 
-
+        /// <summary>
+        /// Performs the payment 
+        /// </summary>
+        /// <param name="apiContext">The details for paypal API</param>
+        /// <param name="payerID">The Customer's ID</param>
+        /// <param name="paymentId">the Uniquiue payment ID</param>
+        /// <returns></returns>
     private Payment ExecutePayment(APIContext apiContext, string payerID, string paymentId)
     {
         var PaymentExecution = new PaymentExecution() { payer_id = payerID };

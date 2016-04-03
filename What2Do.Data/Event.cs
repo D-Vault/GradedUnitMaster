@@ -18,6 +18,8 @@ namespace What2Do.Data
        
         public int BusinessID { get; set; }
 
+        public virtual Business Business { get; set; }
+
         public decimal EventPrice { get; set; }
 
        

@@ -29,13 +29,15 @@ namespace What2Do.Data
             //Execute the following when there are no users in the database
             if (!context.Users.Any())
             {
+
                 //Creates and assigns variables that will make up the Staff account 
 
                 Staff staff = new Staff
                 {
                     Email = "admin@admin.com",
                     UserName = "admin@admin.com",
-                    Name = "Staff Member",
+                    FirstName = "Staff",
+                    Surname="Member",
                     Town = "Greenock",
                     Street = "123 fakestreet",
                     TelNo = "01234567891",
@@ -50,7 +52,8 @@ namespace What2Do.Data
                 {
                     Email = "customer@customer.com",
                     UserName = "customer@customer.com",
-                    Name = "Customer-chan",
+                    FirstName = "Customer",
+                    Surname= "-chan",
                     Street = "123 fakestreet",
                     Town = "Downtown",
                     TelNo = "12345987001", 
@@ -64,13 +67,39 @@ namespace What2Do.Data
                 {
                     Email = "business@Business.com",
                     UserName = "Business",
-                    Name = "Business",
+                    FirstName = "Business",
+                    Surname="",
                     Street = "123 fakestreet",
                     Town = "Memetown",
                     TelNo = "78945612302",
                     MobileNo = "32165498702",
                     Postcode = "PP123",
                     EmailConfirmed = true
+                };
+
+                Location location = new Location()
+                {
+                    Street = business.Street,
+                    Town = business.Town,
+                    Postcode = business.Postcode
+                };
+
+                Type type = new Type()
+                {
+                    TypeName = "Tests",
+                    TypeDescription = "Testing"
+                };
+
+
+
+            Event newEvent = new Event()
+                {
+                    Business = business,
+                    Capacity = 60,
+                    EventName = "Poppins",
+                    EventPrice = 0,
+                    Description = "Testing123",
+
                 };
 
 

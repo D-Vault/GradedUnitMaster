@@ -50,7 +50,7 @@ namespace What2Do.Data
         /// </summary>
         public Booking()
         {
-            Customer = new Customer();
+            Customer_Account = new Account();
             cost = 0;
             PaymentMethod = "";
             BookingDate = DateTime.Now;
