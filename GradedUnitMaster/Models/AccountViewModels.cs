@@ -79,6 +79,35 @@ namespace GradedUnitMaster.Models
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+        [Required]
+        [Display(Name = "First Name:")]
+        public string FirstName { get; set; }
+
+        [Required]
+        [Display(Name ="Surname:")]
+        public string Surname { get; set; }
+
+        [Required]
+        [Display(Name="Street:")]
+        public string Street { get; set; }
+
+        [Required]
+        [Display(Name ="Town:")]
+        public string Town { get; set; }
+
+        [Required]
+        [Display(Name ="Postcode")]
+        public string postcode { get; set; }
+
+        [Required]
+        [DataType(DataType.PhoneNumber)]
+        public string TelNo { get; set; }
+
+        [Required]
+        [DataType(DataType.PhoneNumber)]
+        public string MobileNo { get; set; }
+
     }
 
     public class ResetPasswordViewModel
