@@ -82,7 +82,7 @@ namespace GradedUnitMaster.Models
 
         [Required]
         [Display(Name = "First Name:")]
-        public string FirstName { get; set; 
+        public string FirstName { get; set; }
 
         [Required]
         [Display(Name ="Surname:")]
