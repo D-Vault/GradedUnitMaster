@@ -6,8 +6,9 @@ namespace What2Do.Data
     using System.Collections.Generic;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
+    using System.Data.Entity.Validation;
     using System.Linq;
-
+    using System.Text;
     public sealed class Configuration : DbMigrationsConfiguration<ApplicationDbContext>
     {
         /// <summary>
@@ -29,93 +30,116 @@ namespace What2Do.Data
             //Execute the following when there are no users in the database
             if (!context.Users.Any())
             {
-
-                //Creates and assigns variables that will make up the Staff account 
-
-                Staff staff = new Staff
+                try
                 {
-                    Email = "admin@admin.com",
-                    UserName = "admin@admin.com",
-                    FirstName = "Staff",
-                    Surname="Member",
-                    Town = "Greenock",
-                    Street = "123 fakestreet",
-                    TelNo = "01234567891",
-                    MobileNo = "01234567891",
-                    Postcode = "PA15 2AE",
-                    EmailConfirmed = true
-                };
-                
+                    //Creates and assigns variables that will make up the Staff account 
 
-                //Creates and assigns variables that will make up the Customer account 
-                Customer customer = new Customer
+                    Staff staff = new Staff
+                    {
+                        Email = "admin@admin.com",
+                        UserName = "admin@admin.com",
+                        FirstName = "Staff",
+                        Surname = "Member",
+                        Town = "Greenock",
+                        Street = "123 fakestreet",
+                        TelNo = "01234567891",
+                        MobileNo = "01234567891",
+                        Postcode = "PA15 2AE",
+                        EmailConfirmed = true
+                    };
+
+
+                    //Creates and assigns variables that will make up the Customer account 
+                    Customer customer = new Customer
+                    {
+                        Email = "customer@customer.com",
+                        UserName = "customer@customer.com",
+                        FirstName = "Customer",
+                        Surname = "-chan",
+                        Street = "123 fakestreet",
+                        Town = "Downtown",
+                        TelNo = "12345987001",
+                        MobileNo = "12345987001",
+                        Postcode = "PP123",
+                        EmailConfirmed = true
+                    };
+
+                    //Creates and assigns variables that will make up the Business account 
+                    Business business = new Business
+                    {
+                        Email = "business@Business.com",
+                        UserName = "Business",
+                        FirstName = "Business",
+                        Surname = "",
+                        Street = "123 fakestreet",
+                        Town = "Memetown",
+                        TelNo = "78945612302",
+                        MobileNo = "32165498702",
+                        Postcode = "PP123",
+                        BusinessName = "Business",
+                        EmailConfirmed = true
+
+                    };
+
+                    Location location = new Location()
+                    {
+                        Street = business.Street,
+                        Town = business.Town,
+                        Postcode = business.Postcode
+                    };
+
+                    Type type = new Type()
+                    {
+                        TypeName = "Tests",
+                        TypeDescription = "Testing"
+                    };
+
+
+
+                    Event newEvent = new Event()
+                    {
+                        Business = business,
+                        Capacity = 60,
+                        EventName = "Poppins",
+                        EventPrice = 0,
+                        Description = "Testing123",
+                        Type = type,
+                        Location = location
+
+                    };
+                    context.Events.Add(newEvent);
+
+                    //Passwords for accounts
+                    string sPassword = staff.Email;
+                    string cPassword = customer.Email;
+                    string bPassword = business.Email;
+
+
+                    //These methods create the new users accounts 
+                    CreateStaffUser(context, staff, sPassword);
+                    CreateCustomerUser(context, customer, cPassword);
+                    CreateBusinessUser(context, business, bPassword);
+
+
+                }
+                catch (DbEntityValidationException ex)
                 {
-                    Email = "customer@customer.com",
-                    UserName = "customer@customer.com",
-                    FirstName = "Customer",
-                    Surname= "-chan",
-                    Street = "123 fakestreet",
-                    Town = "Downtown",
-                    TelNo = "12345987001", 
-                    MobileNo = "12345987001",
-                    Postcode = "PP123",
-                    EmailConfirmed = true
-                };
-
-                //Creates and assigns variables that will make up the Business account 
-                Business business = new Business
-                {
-                    Email = "business@Business.com",
-                    UserName = "Business",
-                    FirstName = "Business",
-                    Surname="",
-                    Street = "123 fakestreet",
-                    Town = "Memetown",
-                    TelNo = "78945612302",
-                    MobileNo = "32165498702",
-                    Postcode = "PP123",
-                    EmailConfirmed = true
-                };
-
-                Location location = new Location()
-                {
-                    Street = business.Street,
-                    Town = business.Town,
-                    Postcode = business.Postcode
-                };
-
-                Type type = new Type()
-                {
-                    TypeName = "Tests",
-                    TypeDescription = "Testing"
-                };
-
-
-
-            Event newEvent = new Event()
-                {
-                    Business = business,
-                    Capacity = 60,
-                    EventName = "Poppins",
-                    EventPrice = 0,
-                    Description = "Testing123",
-
-                };
-
-
-                //Passwords for accounts
-                string sPassword = staff.Email;
-                string cPassword = customer.Email;
-                string bPassword = business.Email;
-
-
-                //These methods create the new users accounts 
-                CreateStaffUser(context, staff, sPassword);
-                CreateCustomerUser(context, customer, cPassword);
-                CreateBusinessUser(context, business, bPassword);
-
+                    var sb = new StringBuilder();
+                    foreach (var failure in ex.EntityValidationErrors)
+                    {
+                        sb.AppendFormat("{0} failed validation\n", failure.Entry.Entity.GetType());
+                        foreach (var error in failure.ValidationErrors)
+                        {
+                            sb.AppendFormat("- {0} : {1}", error.PropertyName, error.ErrorMessage);
+                            sb.AppendLine();
+                        }
+                    }
+                    throw new DbEntityValidationException(
+                        "Entity Validation Failed - errors follow:\n" +
+                        sb.ToString(), ex
+                    );
+                }
             }
-
         }
 
         /// <summary>

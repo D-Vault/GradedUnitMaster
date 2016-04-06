@@ -31,9 +31,9 @@ namespace GradedUnitMaster
 
 
         /// <summary>
-        /// 
+        /// Sends messages to a selected user
         /// </summary>
-        /// <param name="message"></param>
+        /// <param name="message">The details of the message to be sent(incl. Email)</param>
         /// <returns></returns>
         private Task configSendGridasync(IdentityMessage message)
         {
@@ -75,11 +75,11 @@ namespace GradedUnitMaster
             public Task SendAsync(IdentityMessage message)
             {
                 var Twilio = new TwilioRestClient(
-                 System.Configuration.ConfigurationManager.AppSettings["SMSAccountIdentification"],
-                 System.Configuration.ConfigurationManager.AppSettings["SMSAccountPassword"]);
+                 ConfigurationManager.AppSettings["SMSAccountIdentification"],
+                 ConfigurationManager.AppSettings["SMSAccountPassword"]);
 
                 var Result = Twilio.SendMessage(
-                    System.Configuration.ConfigurationManager.AppSettings["SMSAccountFrom"],
+                    ConfigurationManager.AppSettings["SMSAccountFrom"],
                     message.Destination, message.Body);
 
                 Trace.TraceInformation(Result.Status);
@@ -108,11 +108,11 @@ namespace GradedUnitMaster
                 // Configure validation logic for passwords
                 manager.PasswordValidator = new PasswordValidator
                 {
-                    RequiredLength = 6,
-                    RequireNonLetterOrDigit = true,
-                    RequireDigit = true,
-                    RequireLowercase = true,
-                    RequireUppercase = true,
+                    RequiredLength = 1,
+                    RequireNonLetterOrDigit = false,
+                    RequireDigit = false,
+                    RequireLowercase = false,
+                    RequireUppercase = false,
                 };
 
                 // Configure user lockout defaults

@@ -16,6 +16,7 @@ namespace What2Do.Data
         /// </summary>
 
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int CustomerID { get; set; }
 
         

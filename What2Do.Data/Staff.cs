@@ -19,6 +19,7 @@ namespace What2Do.Data
         /// Attributes of the Staff Class
         /// </summary>
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int StaffID { get; set; }
 
         [StringLength(50)]

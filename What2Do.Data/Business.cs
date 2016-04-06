@@ -17,7 +17,10 @@ namespace What2Do.Data
         
      
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int BusinessID { get; set; }
+
+        public string BusinessName { get; set; }
 
         public virtual ICollection<Event> Events { get; set; }
         public virtual ICollection<Review> Reviews { get; set; }

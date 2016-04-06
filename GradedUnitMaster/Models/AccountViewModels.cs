@@ -97,16 +97,24 @@ namespace GradedUnitMaster.Models
         public string Town { get; set; }
 
         [Required]
-        [Display(Name ="Postcode")]
+        [Display(Name ="Postcode:")]
         public string postcode { get; set; }
 
         [Required]
+        [Display(Name ="Telephone Number:")]
         [DataType(DataType.PhoneNumber)]
         public string TelNo { get; set; }
 
         [Required]
+        [Display(Name ="Mobile Number:")]
         [DataType(DataType.PhoneNumber)]
         public string MobileNo { get; set; }
+
+        [Required]
+        public bool isBusiness { get; set; }
+                
+        [Display(Name ="Your Businesses Name:")]
+        public string BusinessName { get; set; }
 
     }
 

@@ -11,6 +11,9 @@ namespace GradedUnitMaster.Controllers
         // GET: Events
         public ActionResult Index()
         {
+            
+
+
             return View();
         }
 

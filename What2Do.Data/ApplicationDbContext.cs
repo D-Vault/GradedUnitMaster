@@ -27,7 +27,7 @@ namespace What2Do.Data
         /// Default Constructor
         /// </summary>
         public ApplicationDbContext()
-            : base  ("Connection", throwIfV1Schema: false)
+            : base  ("What2Do", throwIfV1Schema: false)
         {
         } 
 
@@ -40,6 +40,6 @@ namespace What2Do.Data
             return new ApplicationDbContext();
         }
 
-        public System.Data.Entity.DbSet<What2Do.Data.CardDetails> CardDetails { get; set; }
+      
     }
 }

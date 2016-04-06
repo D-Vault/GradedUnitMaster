@@ -10,6 +10,9 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using GradedUnitMaster.Models;
 using What2Do.Data;
+using Microsoft.AspNet.Identity.EntityFramework;
+using System.Data.Entity.Validation;
+using Microsoft.Owin.Security.DataProtection;
 
 namespace GradedUnitMaster.Controllers
 {
@@ -135,41 +138,107 @@ namespace GradedUnitMaster.Controllers
             }
         }
 
-        //
-        // GET: /Account/Register
+      
         [AllowAnonymous]
-        public ActionResult Register()
+        public ActionResult Register(string type)
         {
+            
+            if (type == "Business")
+            {
+                ViewBag.Account = "Business";
+                
+            }
+      
+
             return View();
         }
 
-        //
-        // POST: /Account/Register
+       
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
-            if (ModelState.IsValid)
-            {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-                var result = await UserManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
+            try {
+                if (ModelState.IsValid)
                 {
-                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
-                    // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
-                     //Send an email with this link
-                     string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                     var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                     await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
-                    ViewBag.Message = "Check your email to confirm your account";
-                    return View("Info");
-                }
-                AddErrors(result);
+                    if (model.isBusiness)
+                    {
+                        var store = new UserStore<Business>(db);
+                        var userManager = new UserManager<Business>(store);
+                        var user = new Business
+                        {
+                            UserName = model.Email,
+                            Email = model.Email,
+                            FirstName = model.FirstName,
+                            Surname = model.Surname,
+                            Postcode = model.postcode,
+                            Street = model.Street,
+                            Town = model.Town,
+                            MobileNo = model.MobileNo,
+                            TelNo = model.TelNo,
+                            BusinessName = model.BusinessName
+                        };
+                        var result = await userManager.CreateAsync(user, model.Password);
+                        if (result.Succeeded)
+                        {
+                                                     
+                            //Send an email with this link
+                            string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                            var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                            await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+
+                            ViewBag.Message = "Check your email to confirm your account";
+                            return View("Info");
+                        }
+
+                    }
+                    else {
+
+                        var store = new UserStore<Customer>(db);
+                        var userManager = new UserManager<Customer>(store);
+                        var user = new Customer
+                        {
+                            UserName = model.Email,
+                            Email = model.Email,
+                            FirstName = model.FirstName,
+                            Surname = model.Surname,
+                            Postcode = model.postcode,
+                            Street = model.Street,
+                            Town = model.Town,
+                            MobileNo = model.MobileNo,
+                            TelNo = model.TelNo
+
+                        };
+                        var result = await userManager.CreateAsync(user, model.Password);
+                        if (result.Succeeded)
+                        {
+                            //Send an email with this link
+                           // 
+                           
+                            string code = await UserManager
+                                .GenerateEmailConfirmationTokenAsync(user.Id);
+
+                            var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                            await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+
+                            ViewBag.Message = "Check your email to confirm your account";
+                            return View("Info");
+                        }
+                    }
+                } }
+
+            catch (DbEntityValidationException ex)
+            {
+
             }
 
+                    
+                //AddErrors(result);
+            
+                
+            
             // If we got this far, something failed, redisplay form
             return View(model);
         }
