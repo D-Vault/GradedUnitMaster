@@ -25,18 +25,17 @@ namespace GradedUnitMaster.Controllers
 
                                 Id = u.EventID,
                                 Business = u.Business,
-                                capacity = u.Capacity, 
-                                name = u.EventName, 
-                                description = u.Description, 
-                                location = u.Location, 
-                                //dates = u.EventDates, 
-                                price = u.EventPrice, 
-                                type = u.Type, 
-                                restrictions = u.Restrictions
-                                
+                                capacity = u.Capacity,
+                                name = u.EventName,
+                                description = u.Description,
+                                location = u.Location,
+                                price = u.EventPrice,
+                                type = u.Type,
+                                restrictions = u.Restrictions,
+                                                               
                             };
 
-
+            ViewBag.isBusiness = IsBusiness();
             return View(eventList.ToList());
         }
 

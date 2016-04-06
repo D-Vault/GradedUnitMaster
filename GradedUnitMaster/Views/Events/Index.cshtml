@@ -4,36 +4,62 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>Event Listing</h2>
 
-<p>
-    @Html.ActionLink("Add a new event", "Create")
-</p>
+@if (ViewBag.isBusiness == true)
+{
+    @Html.ActionLink("Add a new event", "Create", "Event",null, new {@class="btn btn-default"})
+}
 
+<hr />
 
 @foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.price)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.description)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.restrictions)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.capacity)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
-}
+
+                <div class="col-md-9">
+
+                    <div class="thumbnail">
+                       
+                        <div class="caption-full">
+                            @if (item.price == 0)
+                            {
+                                <h4 class="pull-right">Price: Free</h4>
+                            }
+                            else {
+                            <h4 class="pull-right">Price: £@Html.DisplayFor(m => item.price) GBP</h4>
+                            }
+                        
+                           
+                            <h3>
+                               @Html.DisplayFor(m=> item.name)
+                           </h3>
+                            <h4>Capacity: @Html.DisplayFor(m => item.capacity)</h4>
+                            <p> Event Dates: @foreach (var date in item.dates)
+                            {
+                                date.ToString();
+                            }
+                            </p>
+                            <hr />
+                            <p> Description: @Html.DisplayFor(m=> item.description)</p>
+
+                            
+                            
+                            <hr/> 
+                            @if (item.restrictions.Equals(" "))
+                            {
+                                <p>No Restrictions specified</p>
+                            }
+                            else {
+                            <p>Retrictions: @Html.DisplayFor(m => item.restrictions)</p>
+                            }
+                         </div>
+                        
+                    </div>
+
+                    
+                </div>
+
+        }
+
+
 
 
