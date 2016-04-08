@@ -14,33 +14,26 @@ namespace What2Do.Data
         /// <summary>
         /// Attributes
         /// </summary>
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+       
         [Key]
         public int DetailID { get; set; }
        
-        public int CardNo { get; set; }
-      
-        public int SortCode { get; set; }
-        
+        public string CardNo { get; set; }
+                      
         public int ExpireMonth { get; set; }
 
         public int ExpireYear { get; set; }
        
-        public string Type { get; set; }
+        public string CardType { get; set; }
 
         public virtual Account Account { get; set; }
 
-        [StringLength(75)]
-        public string CardHolder { get; set; }
-       
-        public int SecurityCode { get; set; }
+               
+        
 
         public CardDetails()
         {
-            CardNo = 0;
-            SortCode = 0;
-            CardHolder = " ";
-            SecurityCode = 0;
+            CardNo = "0";
         }
 
         /* Now create an object of credit card and add above details to it 

@@ -1,0 +1,44 @@
+﻿@model GradedUnitMaster.Models.EventViewModel
+
+
+<h2>@Model.name</h2>
+
+<div class="col-md-9">
+
+    <div class="thumbnail">
+
+        <div class="caption-full">
+            @if (@Model.price == 0)
+            {
+                <h4 class="pull-right">Price: Free</h4>
+            }
+            else {
+                <h4 class="pull-right">Price: £ @Model.price GBP</h4>
+            }
+            <h4>Capacity: @Model.capacity</h4>
+            <p>Taking Place on: 
+            @foreach(var date in Model.dates)
+            {
+                @date.Date.Date.ToShortDateString();
+            }
+            </p>
+            <hr />
+            <p> Description: @Model.description</p>
+
+
+
+            <hr />
+            @if (@Model.restrictions.Equals(" "))
+            {
+                <p>No Restrictions specified</p>
+            }
+            else {
+                <p>Retrictions: @Model.restrictions</p>
+            }
+        </div>
+
+    </div>
+    
+
+</div>
+

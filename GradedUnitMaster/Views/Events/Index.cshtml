@@ -33,11 +33,6 @@
                                @Html.DisplayFor(m=> item.name)
                            </h3>
                             <h4>Capacity: @Html.DisplayFor(m => item.capacity)</h4>
-                            <p> Event Dates: @foreach (var date in item.dates)
-                            {
-                                date.ToString();
-                            }
-                            </p>
                             <hr />
                             <p> Description: @Html.DisplayFor(m=> item.description)</p>
 
@@ -54,7 +49,7 @@
                          </div>
                         
                     </div>
-
+                    @Html.ActionLink("Details..", "Details", "Events", new { id = item.Id}, new { @class="btn btn-default"})
                     
                 </div>
 

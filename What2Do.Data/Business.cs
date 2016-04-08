@@ -17,7 +17,6 @@ namespace What2Do.Data
         
      
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int BusinessID { get; set; }
 
         public string BusinessName { get; set; }

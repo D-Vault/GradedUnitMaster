@@ -86,7 +86,7 @@ namespace GradedUnitMaster.Controllers
                 first_name = account.FirstName,
                 last_name = account.Surname,
                 number = card.CardNo.ToString(),
-                type = card.Type
+                type = card.CardType
             };
 
             //Specify details of your payment ammount

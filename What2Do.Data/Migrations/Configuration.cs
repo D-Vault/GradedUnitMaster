@@ -27,11 +27,14 @@ namespace What2Do.Data
         /// <param name="context">The Database context</param>
         protected override void Seed(ApplicationDbContext context)
         {
+            if (System.Diagnostics.Debugger.IsAttached == false)
+                System.Diagnostics.Debugger.Launch();
             //Execute the following when there are no users in the database
-            if (!context.Users.Any())
+            if (true)
             {
-                try
-                {
+
+                try {
+
                     //Creates and assigns variables that will make up the Staff account 
 
                     Staff staff = new Staff
@@ -80,7 +83,19 @@ namespace What2Do.Data
                         EmailConfirmed = true
 
                     };
+                               
+                    //Passwords for accounts
+                    string sPassword = staff.Email;
+                    string cPassword = customer.Email;
+                    string bPassword = business.Email;
 
+                    //These methods create the new users accounts 
+                    CreateStaffUser(context, staff, sPassword);
+                    CreateCustomerUser(context, customer, cPassword);
+                    CreateBusinessUser(context, business, bPassword);
+
+
+                    //Creating new Location
                     Location location = new Location()
                     {
                         Street = business.Street,
@@ -88,6 +103,7 @@ namespace What2Do.Data
                         Postcode = business.Postcode
                     };
 
+                    //Creating new Type
                     Type type = new Type()
                     {
                         TypeName = "Tests",
@@ -104,43 +120,48 @@ namespace What2Do.Data
                         EventPrice = 0,
                         Description = "Testing123",
                         Type = type,
-                        Location = location
-
+                        Location = location,
+                        
                     };
-                    context.Events.Add(newEvent);
-
-                    //Passwords for accounts
-                    string sPassword = staff.Email;
-                    string cPassword = customer.Email;
-                    string bPassword = business.Email;
 
 
-                    //These methods create the new users accounts 
-                    CreateStaffUser(context, staff, sPassword);
-                    CreateCustomerUser(context, customer, cPassword);
-                    CreateBusinessUser(context, business, bPassword);
 
+                    newEvent.Dates.Add(new EventDates()
+                    {
+                        Date= DateTime.Now.AddDays(3)
+                    });
+                  
+
+                    context.Locations.AddOrUpdate(location);
+                    context.Types.AddOrUpdate(type);
+                    context.Events.AddOrUpdate(newEvent);
 
                 }
-                catch (DbEntityValidationException ex)
+                catch (DbEntityValidationException e)
                 {
-                    var sb = new StringBuilder();
-                    foreach (var failure in ex.EntityValidationErrors)
+                    foreach (var eve in e.EntityValidationErrors)
                     {
-                        sb.AppendFormat("{0} failed validation\n", failure.Entry.Entity.GetType());
-                        foreach (var error in failure.ValidationErrors)
+                        Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                            eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                        foreach (var ve in eve.ValidationErrors)
                         {
-                            sb.AppendFormat("- {0} : {1}", error.PropertyName, error.ErrorMessage);
-                            sb.AppendLine();
+                            Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+                                ve.PropertyName, ve.ErrorMessage);
                         }
                     }
-                    throw new DbEntityValidationException(
-                        "Entity Validation Failed - errors follow:\n" +
-                        sb.ToString(), ex
-                    );
+                    throw;
                 }
+
+
+
+
+
+
+
             }
         }
+
+       
 
         /// <summary>
         /// Creates a new Business entry into the database

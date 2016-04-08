@@ -7,6 +7,10 @@ using System.Web.Mvc;
 
 namespace GradedUnitMaster.Controllers
 {
+
+    /// <summary>
+    /// Handles all actions relating to event listing 
+    /// </summary>
     public class EventsController : MainController
     {
        /// <summary>
@@ -18,31 +22,44 @@ namespace GradedUnitMaster.Controllers
             
             var events = db.Events;
 
-            //Gets all entries in list and transfers them to the view model
-            var eventList = from u in events
-                            select new EventViewModel()
-                            {
+            
+                //Gets all entries in list and transfers them to the view model
+                var eventList = from u in events
+                                select new EventViewModel()
+                                {
 
-                                Id = u.EventID,
-                                Business = u.Business,
-                                capacity = u.Capacity,
-                                name = u.EventName,
-                                description = u.Description,
-                                location = u.Location,
-                                price = u.EventPrice,
-                                type = u.Type,
-                                restrictions = u.Restrictions,
-                                                               
-                            };
+                                    Id = u.EventID,
+                                    capacity = u.Capacity,
+                                    name = u.EventName,
+                                    description = u.Description,
+                                    price = u.EventPrice,
+                                    type = u.Type,
+                                    restrictions = u.Restrictions
+
+                                };
+          
 
             ViewBag.isBusiness = IsBusiness();
             return View(eventList.ToList());
+            
+           
         }
 
-         // GET: Events/Details/5
+         /// <summary>
+         /// Returns a specific event's details
+         /// </summary>
+         /// <param name="id">the unique id of the event</param>
+         /// <returns>the view with the requested event</returns>
         public ActionResult Details(int id)
         {
-            return View();
+
+            var newEvent = db.Events
+                .Where(e => e.EventID == id)
+                .Select(EventViewModel.ViewModel)
+                .SingleOrDefault();
+            
+
+            return View(newEvent);
         }
 
         // GET: Events/Create
@@ -53,7 +70,7 @@ namespace GradedUnitMaster.Controllers
 
         // POST: Events/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(EventViewModel model)
         {
             try
             {

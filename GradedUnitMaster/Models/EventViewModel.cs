@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using What2Do.Data;
 
@@ -13,7 +14,7 @@ namespace GradedUnitMaster.Models
         public int Id { get; set; }
         public Business Business { get; set; }
         public decimal price { get; set; }
-        public ICollection<DateTime> dates { get; set;}
+        public ICollection<EventDatesViewModel> dates { get; set;}
         public string name { get; set; }
         public string description { get; set; }
         public string restrictions { get; set; }
@@ -30,7 +31,7 @@ namespace GradedUnitMaster.Models
                     Id = e.EventID,
                     Business = e.Business,
                     price = e.EventPrice,
-                    dates = e.EventDates,
+                    dates = e.Dates.AsQueryable().Select(EventDatesViewModel.ViewModel).ToList(),
                     name = e.EventName,
                     description = e.Description,
                     restrictions = e.Restrictions,

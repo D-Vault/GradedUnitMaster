@@ -68,6 +68,7 @@
     <Compile Include="CardDetails.cs" />
     <Compile Include="Customer.cs" />
     <Compile Include="Event.cs" />
+    <Compile Include="EventDates.cs" />
     <Compile Include="Location.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

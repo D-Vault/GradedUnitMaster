@@ -19,8 +19,7 @@ namespace What2Do.Data
         [Key]
         public int BookingID { get; set; }
 
-        [Required]
-        public int CustomerID { get; set; }
+       
 
         /// <summary>
         /// Highlight attribute of database: 
