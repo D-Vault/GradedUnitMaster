@@ -17,7 +17,7 @@ namespace What2Do.Data
         public IDbSet<Booking> Bookings { get; set; }
         public IDbSet<Location> Locations { get; set; }
         public IDbSet<Type> Types { get; set; }
-        public IDbSet<Business> Business { get; set; }
+        public IDbSet<Business> Businesses { get; set; }
         public IDbSet<Customer> Customers { get; set; }
         public IDbSet<BookingLine> BookingLine { get; set; }
         public IDbSet<Account>Accounts { get; set; }
@@ -43,5 +43,6 @@ namespace What2Do.Data
             return new ApplicationDbContext();
         }
 
+        
     }
 }

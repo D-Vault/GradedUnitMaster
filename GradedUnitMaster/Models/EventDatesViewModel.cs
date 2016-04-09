@@ -9,6 +9,7 @@ namespace GradedUnitMaster.Models
     {
         public int Id { get; set; }
         public DateTime Date { get; set; }
+        public int Bookings { get; set; }
 
         public static Expression<Func<EventDates, EventDatesViewModel>> ViewModel
         {
@@ -16,7 +17,8 @@ namespace GradedUnitMaster.Models
             {
                 return d=> new EventDatesViewModel(){
                     Id = d.Id, 
-                    Date = d.Date
+                    Date = d.Date,
+                    Bookings = d.bookings
                 };
             }
         }

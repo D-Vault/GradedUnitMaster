@@ -197,6 +197,8 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\BookingController.cs" />
+    <Compile Include="Controllers\BusinessesController.cs" />
     <Compile Include="Controllers\EventsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MainController.cs" />
@@ -208,8 +210,10 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\BookingLineViewModel.cs" />
     <Compile Include="Models\BookingViewModel.cs" />
+    <Compile Include="Models\BusinessViewModel.cs" />
     <Compile Include="Models\EventDatesViewModel.cs" />
     <Compile Include="Models\LocationViewModel.cs" />
+    <Compile Include="Models\ReviewViewModel.cs" />
     <Compile Include="Models\TypeViewModel.cs" />
     <Compile Include="Models\UserViewModel.cs" />
     <Compile Include="Models\EventViewModel.cs" />
@@ -277,8 +281,15 @@
     <Content Include="Views\Shared\Info.cshtml" />
     <Content Include="Views\Events\Index.cshtml" />
     <Content Include="Views\Events\Details.cshtml" />
+    <Content Include="Views\Businesses\Create.cshtml" />
+    <Content Include="Views\Businesses\Delete.cshtml" />
+    <Content Include="Views\Businesses\Details.cshtml" />
+    <Content Include="Views\Businesses\Edit.cshtml" />
+    <Content Include="Views\Businesses\Index.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Views\Booking\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />

@@ -18,6 +18,7 @@ namespace What2Do.Data
 
         public virtual ICollection<Booking> Bookings { get; set; }
         public virtual ICollection<CardDetails>Cards { get; set; }
+        public virtual ICollection<Review>Reviews { get; set; }
 
        
         [StringLength(75)]
@@ -26,23 +27,18 @@ namespace What2Do.Data
         [StringLength(75)]
         public string Surname { get; set; }
 
-
         [StringLength(60)]
         public string Street { get; set; }
 
-       
         [StringLength(60)]
         public string Town { get; set; }
 
-      
         [StringLength(8)]
         public string Postcode { get; set; }
 
-      
         [StringLength(11)]
         public string TelNo { get; set; }
 
-       
         [StringLength(11)]
         public string MobileNo { get; set; }
 

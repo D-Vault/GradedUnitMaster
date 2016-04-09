@@ -22,6 +22,6 @@ namespace What2Do.Data
         public string BusinessName { get; set; }
 
         public virtual ICollection<Event> Events { get; set; }
-        public virtual ICollection<Review> Reviews { get; set; }
+        public virtual ICollection<Review> Review { get; set; }
     }
 }

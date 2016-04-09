@@ -9,6 +9,9 @@ namespace What2Do.Data
         [Key]
         public int Id { get; set; }
 
+        [DataType(DataType.Date)]
         public DateTime Date { get; set; }
+
+        public int bookings { get; set; }
     }
 }

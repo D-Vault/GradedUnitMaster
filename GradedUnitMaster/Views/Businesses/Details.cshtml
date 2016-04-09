@@ -1,0 +1,57 @@
+﻿@model GradedUnitMaster.Models.BusinessViewModel
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<div class="col-md-10">
+
+    <h2>@Model.BusinessName</h2>
+
+    <hr />
+
+    <h3>Contact Info</h3>
+    <p>@Model.TelNo</p>
+
+    <hr />
+
+    <h3>Address</h3>
+    <p>@Model.Street</p>
+
+    <p>@Model.Town</p>
+
+    <p>@Model.Postcode</p>
+
+    <hr />
+</div>
+
+<div class="col-lg-10">
+    @if (@Model.Reviews.Any())
+    {
+        <h3> Reviews</h3>
+        foreach (var review in Model.Reviews)
+        {
+
+
+            <div class="thumbnail">
+                <h4>Rated: @review.Rating / 5</h4>
+                <h5>Reviewed by: @review.Customer_Account.UserName</h5>
+                @if (!(review.Comment.Equals("") || review.Comment == null))
+                    {
+                    <p>@review.Comment</p>
+                }
+            </div>
+
+                <hr />
+
+        }
+    }
+    else
+    {
+        <h3>No Reviews have been made on this business</h3>
+    }
+
+</div>
+
+
+

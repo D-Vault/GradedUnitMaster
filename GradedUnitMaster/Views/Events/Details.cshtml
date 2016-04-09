@@ -16,13 +16,32 @@
                 <h4 class="pull-right">Price: £ @Model.price GBP</h4>
             }
             <h4>Capacity: @Model.capacity</h4>
-            <p>Taking Place on: 
-            @foreach(var date in Model.dates)
-            {
-                @date.Date.Date.ToShortDateString();
-            }
+            <p>
+                Taking Place on:
             </p>
-            <hr />
+    @foreach (var date in Model.dates)
+    {
+        
+        @date.Date.Date.ToShortDateString();
+
+        if (date.Bookings == Model.capacity)
+        {
+            <div class="alert-danger">
+                
+                    <p> Date Full- Unfortunately, this date for the event has reached its capacity</p>
+               
+            </div>
+        }
+        else
+        {
+            <div class="success">
+                <p>Free Spaces</p>
+            </div>
+        }
+        <hr/>
+    }
+        
+         
             <p> Description: @Model.description</p>
 
 
@@ -38,6 +57,8 @@
         </div>
 
     </div>
+
+    @Html.ActionLink("View Business", "Details", "Businesses", new { id = Model.Business.BusinessID}, new { @class="btn btn-default"})
     
 
 </div>

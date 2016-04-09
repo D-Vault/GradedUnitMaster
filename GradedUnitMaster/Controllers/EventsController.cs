@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using What2Do.Data;
 
 namespace GradedUnitMaster.Controllers
 {
@@ -34,8 +35,8 @@ namespace GradedUnitMaster.Controllers
                                     description = u.Description,
                                     price = u.EventPrice,
                                     type = u.Type,
-                                    restrictions = u.Restrictions
-
+                                    restrictions = u.Restrictions, 
+                                    Business = u.Business                                   
                                 };
           
 

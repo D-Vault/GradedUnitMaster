@@ -4,18 +4,29 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Event Listing</h2>
+<h2>Events </h2>
 
 @if (ViewBag.isBusiness == true)
 {
     @Html.ActionLink("Add a new event", "Create", "Event",null, new {@class="btn btn-default"})
 }
 
-<hr />
-
+<div class="col-md-11">
+    <div class="thumbnail">
+        <h5>Event Types</h5>
+        <ul class="list-unstyled">
+            @foreach (var type in Model.Select(t => t.type).Distinct())
+            {
+                <li>
+                    @Html.ActionLink(@type.TypeName, "SearchByType", "Events", new { type = type }, new { @class = "btn btn-default" })
+                </li>
+            }
+        </ul>
+    </div>
+</div>
 @foreach (var item in Model) {
 
-                <div class="col-md-9">
+                <div class="col-md-11">
 
                     <div class="thumbnail">
                        

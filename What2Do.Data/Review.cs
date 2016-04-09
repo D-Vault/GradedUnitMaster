@@ -20,24 +20,18 @@ namespace What2Do.Data
         /// Attributes of the review class 
         /// </summary>
 
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        
         [Key]
         public int ReviewID { get; set; }
 
-
         public int Rating { get; set; }
 
-       
         public string Comment { get; set; }
 
-        
-        public int CustomerId { get; set; }
-        
-        public virtual Customer Customer { get; set; }
+        // This attribute is of Type Account due to the possibility 
+        // of a business making a review
+        public virtual Account Customer_Account { get; set; }
 
-        
-        public int BusinessId { get; set; }
-        
         public virtual Business Business { get; set; }
 
 
@@ -46,7 +40,7 @@ namespace What2Do.Data
         /// </summary>
         public Review()
         {
-            Customer = new Customer();
+            Customer_Account = new Account();
             Business = new Business();
             Comment = " ";
             Rating = 0;

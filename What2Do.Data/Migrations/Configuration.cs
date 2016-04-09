@@ -30,10 +30,10 @@ namespace What2Do.Data
             if (System.Diagnostics.Debugger.IsAttached == false)
                 System.Diagnostics.Debugger.Launch();
             //Execute the following when there are no users in the database
-            if (true)
+            if (!context.Users.Any())
             {
 
-                try {
+                
 
                     //Creates and assigns variables that will make up the Staff account 
 
@@ -128,35 +128,37 @@ namespace What2Do.Data
 
                     newEvent.Dates.Add(new EventDates()
                     {
-                        Date= DateTime.Now.AddDays(3)
+                        Date= DateTime.Now.AddDays(3),
+                        bookings = 60
                     });
-                  
 
+                    newEvent.Dates.Add(new EventDates()
+                    {
+                        Date = DateTime.Now.AddDays(6),
+                        bookings = 30
+                    });
+
+                    Review review = new Review()
+                    {
+                        Customer_Account = customer,
+                        Rating = 5,
+                        Comment = "Good Show so it was", 
+                        Business = business
+                    };
+
+                Review review2 = new Review()
+                {
+                    Customer_Account = customer,
+                    Rating = 4,
+                    Comment = "Good Show so it was",
+                    Business = business
+                };
+
+                context.Reviews.AddOrUpdate(review2);
+                context.Reviews.AddOrUpdate(review);
                     context.Locations.AddOrUpdate(location);
                     context.Types.AddOrUpdate(type);
-                    context.Events.AddOrUpdate(newEvent);
-
-                }
-                catch (DbEntityValidationException e)
-                {
-                    foreach (var eve in e.EntityValidationErrors)
-                    {
-                        Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
-                            eve.Entry.Entity.GetType().Name, eve.Entry.State);
-                        foreach (var ve in eve.ValidationErrors)
-                        {
-                            Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
-                                ve.PropertyName, ve.ErrorMessage);
-                        }
-                    }
-                    throw;
-                }
-
-
-
-
-
-
+                context.Events.AddOrUpdate(newEvent);
 
             }
         }
