@@ -111,7 +111,7 @@ namespace What2Do.Data
                     };
 
 
-
+                    //Creates new event
                     Event newEvent = new Event()
                     {
                         Business = business,
@@ -125,20 +125,22 @@ namespace What2Do.Data
                     };
 
 
-
-                    newEvent.Dates.Add(new EventDates()
+                //Adds event dates to the event
+                newEvent.Dates.Add(new EventDates()
                     {
                         Date= DateTime.Now.AddDays(3),
                         bookings = 60
                     });
-
+                    
+                    //Adds event dates to the event
                     newEvent.Dates.Add(new EventDates()
                     {
                         Date = DateTime.Now.AddDays(6),
                         bookings = 30
                     });
 
-                    Review review = new Review()
+                //Create new review
+                Review review = new Review()
                     {
                         Customer_Account = customer,
                         Rating = 5,
@@ -146,6 +148,7 @@ namespace What2Do.Data
                         Business = business
                     };
 
+                //Create new review
                 Review review2 = new Review()
                 {
                     Customer_Account = customer,
@@ -154,6 +157,22 @@ namespace What2Do.Data
                     Business = business
                 };
 
+                //Adds new booking for specific event 
+                BookingLine book1 = new BookingLine()
+                {
+                    Event = newEvent,
+                    EventBookingDate = newEvent.Dates
+                    .Where(e => e.Date.Equals(DateTime.Now.AddDays(6))).SingleOrDefault()
+                };
+
+                Booking booking = new Booking()
+                {
+                    BookingDate = DateTime.Now,
+                };
+
+                booking.Bookings.Add(book1);
+
+                //Adds new entries to database
                 context.Reviews.AddOrUpdate(review2);
                 context.Reviews.AddOrUpdate(review);
                     context.Locations.AddOrUpdate(location);

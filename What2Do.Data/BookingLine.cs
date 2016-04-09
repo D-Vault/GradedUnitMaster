@@ -20,7 +20,7 @@ namespace What2Do.Data
         public int BookingID { get; set; }
 
         
-        public virtual DateTime EventBookingDate { get; set; }
+        public virtual EventDates EventBookingDate { get; set; }
         
         public virtual Event Event { get; set; }
         public virtual Booking Booking { get; set; }
@@ -31,7 +31,7 @@ namespace What2Do.Data
         /// </summary>
         public BookingLine()
         {
-            EventBookingDate = DateTime.Now;
+            EventBookingDate = new EventDates();
             Event = new Event();
             Booking = new Booking();
         }
