@@ -31,11 +31,12 @@ namespace What2Do.Data
        
         public decimal cost { get; set; }
 
+        
         [StringLength(50)]
         public string PaymentMethod { get; set; }
 
        
-        public int PaymentID { get; set; }
+        public int? PaymentID { get; set; }
 
       
         public virtual DateTime BookingDate { get; set; }

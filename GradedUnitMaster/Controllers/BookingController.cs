@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNet.Identity;
+﻿using GradedUnitMaster.Models;
+using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 
@@ -21,6 +23,7 @@ namespace GradedUnitMaster.Controllers
 
 
             return Redirect("Info");
+
         }
 
 
@@ -28,9 +31,22 @@ namespace GradedUnitMaster.Controllers
         {
             if (User.Identity.GetUserId() == null)
             {
-
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+            var bookings = this.db.Bookings;
 
+            var usersBookings = from b in bookings
+                                where b.Customer_Account.Id.Equals(
+                                    User.Identity.GetUserId())
+                                select new BookingViewModel()
+                                {
+                                    Id = b.BookingID,
+                                    paymentMethod = b.PaymentMethod, 
+                                    BookingDate = b.BookingDate, 
+                                    cost=  b.cost, 
+                                    customer_account = b.Customer_Account,
+                                };
+                           
             return View();
         }
         

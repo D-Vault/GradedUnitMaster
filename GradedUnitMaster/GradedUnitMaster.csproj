@@ -286,10 +286,9 @@
     <Content Include="Views\Businesses\Details.cshtml" />
     <Content Include="Views\Businesses\Edit.cshtml" />
     <Content Include="Views\Businesses\Index.cshtml" />
+    <Content Include="Views\Booking\ViewBookings.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\Booking\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
