@@ -34,7 +34,7 @@ namespace GradedUnitMaster.Controllers
                                     name = u.EventName,
                                     description = u.Description,
                                     price = u.EventPrice,
-                                    type = u.Type,
+                                    type = u.Type ,
                                     restrictions = u.Restrictions, 
                                     Business = u.Business                                   
                                 };
@@ -69,20 +69,67 @@ namespace GradedUnitMaster.Controllers
             return View();
         }
 
-        // POST: Events/Create
+        /// <summary>
+        /// Creates a new event
+        /// </summary>
+        /// <param name="model">The Data to be inputted</param>
+        /// <returns></returns>
         [HttpPost]
-        public ActionResult Create(EventViewModel model)
+        public ActionResult Create(EventInputModel model)
         {
-            try
+            if (!ModelState.IsValid)
             {
-                // TODO: Add insert logic here
+                return View(model);
+            }
+            if (IsBusiness())
+            {
 
-                return RedirectToAction("Index");
+                //Creating new event and assgning its values to the ones in putted
+                Event newEvent = new Event()
+                {
+                    Business = model.Business,
+                    Capacity = model.Capacity,
+                    EventName = model.Name,
+                    EventPrice = model.Price,
+                    Description = model.Description,
+                    Restrictions = model.Restrictions,
+                    Type = model.Type,
+                    Location = model.Location
+                };
+
+                this.db.Events.Add(newEvent);
+
+                return RedirectToAction("AddDates", newEvent.EventID);
             }
-            catch
+            
+        }
+
+
+        public ActionResult AddDates(int id)
+        {
+
+            return View();
+        }
+
+        public ActionResult AddDates(int id, EventDatesInputModel model)
+        {
+
+            if (!ModelState.IsValid)
             {
-                return View();
+                return View(model);
             }
+           this.db.Events.Where(e => e.EventID == id)
+                .SingleOrDefault().Dates.Add(new EventDates()
+            {
+                bookings = 0,
+                Date = model.Date
+            });
+
+            db.SaveChanges();
+
+            
+
+            return View();
         }
 
         // GET: Events/Edit/5
@@ -129,4 +176,6 @@ namespace GradedUnitMaster.Controllers
             }
         }
     }
+
+    
 }

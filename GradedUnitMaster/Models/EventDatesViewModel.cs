@@ -1,5 +1,6 @@
 ﻿using Microsoft.Ajax.Utilities;
 using System;
+using System.ComponentModel.DataAnnotations;
 using System.Linq.Expressions;
 using What2Do.Data;
 
@@ -23,4 +24,12 @@ namespace GradedUnitMaster.Models
             }
         }
     }
+
+    public class EventDatesInputModel
+    {
+        [DataType(DataType.DateTime)]
+        [Display(Name ="Date")]
+        public DateTime Date { get; set; }
+                
+        }
 }

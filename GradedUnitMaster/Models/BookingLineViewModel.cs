@@ -7,7 +7,7 @@ namespace GradedUnitMaster.Models
     {
         public int BookingId { get; set; }
         public int EventId { get; set; }
-        public DateTime EventBookingDate { get; set; }
+        public EventDates EventBookingDate { get; set; }
         public Event Event { get; set; }
         public Booking Booking { get; set; }
 

@@ -21,7 +21,7 @@ namespace GradedUnitMaster.Controllers
         public ActionResult AddBooking()
         {
 
-
+            
             return Redirect("Info");
 
         }

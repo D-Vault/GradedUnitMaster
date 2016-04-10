@@ -216,7 +216,7 @@
     <Compile Include="Models\ReviewViewModel.cs" />
     <Compile Include="Models\TypeViewModel.cs" />
     <Compile Include="Models\UserViewModel.cs" />
-    <Compile Include="Models\EventViewModel.cs" />
+    <Compile Include="Models\EventViewModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\PaypalConfig.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -287,6 +287,7 @@
     <Content Include="Views\Businesses\Edit.cshtml" />
     <Content Include="Views\Businesses\Index.cshtml" />
     <Content Include="Views\Booking\ViewBookings.cshtml" />
+    <Content Include="Views\Events\Create.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
