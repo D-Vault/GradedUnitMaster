@@ -14,6 +14,16 @@ namespace GradedUnitMaster.Controllers
     /// </summary>
     public class BookingController : HomeController
     {
+
+        public ActionResult Index()
+        {
+            var bookingCart = 
+        }
+
+
+
+
+
         /// <summary>
         /// 
         /// </summary>

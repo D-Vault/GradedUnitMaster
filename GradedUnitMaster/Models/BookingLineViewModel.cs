@@ -7,10 +7,8 @@ namespace GradedUnitMaster.Models
     {
         public int BookingId { get; set; }
         public int EventId { get; set; }
-        public EventDates EventBookingDate { get; set; }
-        public Event Event { get; set; }
-        public Booking Booking { get; set; }
-
+        public int BookingDate { get; set; }
+        
         public static Expression<Func<BookingLine, BookingLineViewModel>> ViewModel
         {
             get
@@ -18,10 +16,9 @@ namespace GradedUnitMaster.Models
                 return bl => new BookingLineViewModel()
                 {
                     BookingId = bl.BookingID,
-                    EventId = bl.EventID,
-                    EventBookingDate = bl.EventBookingDate,
-                    Event = bl.Event,
-                    Booking = bl.Booking
+                    EventId = bl.EventID, 
+                    BookingDate = bl.EventDateId
+
                 };
             }
         }

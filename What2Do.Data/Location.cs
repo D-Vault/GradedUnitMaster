@@ -24,6 +24,7 @@ namespace What2Do.Data
         [StringLength(8)]
         public string Postcode { get; set; }
 
+        public int BusinessID { get; set; }
         public virtual Business Business { get; set; }
 
         /// <summary>

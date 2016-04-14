@@ -19,10 +19,15 @@ namespace What2Do.Data
         [ForeignKey("Booking")]
         public int BookingID { get; set; }
 
+        public string cartId { get; set; }
         
-        public virtual EventDates EventBookingDate { get; set; }
+        public int EventDateId { get; set; }
+        public EventDates EventBookingDate { get; set; }
         
+ 
         public virtual Event Event { get; set; }
+
+       
         public virtual Booking Booking { get; set; }
 
 

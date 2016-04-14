@@ -26,6 +26,7 @@ namespace What2Do.Data
         /// This attribute can be of type business 
         /// as a business customer
         /// </summary>
+        public string AccountID { get; set; }
         public virtual Account Customer_Account { get; set; }
 
        
