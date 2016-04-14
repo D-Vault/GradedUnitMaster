@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Web.Mvc;
 using What2Do.Data;
 
 namespace GradedUnitMaster.Models
@@ -53,17 +54,14 @@ namespace GradedUnitMaster.Models
         public int Id { get; set; }
 
         [Required]
-
         public Business Business { get; set; }
 
      
-        [Display(Name = "Event Name")]
+        [Display(Name = "Event Price")]
         [Required(ErrorMessage = "Event Price is Required")]
         public decimal Price { get; set; }
-
-        [Required(ErrorMessage = "At least one Event Date is Required")]
-        public ICollection<EventDatesInputModel> dates { get; set; }
-
+       
+    
         [Required(ErrorMessage = "Event Name is Required")]
         [Display(Name = "Event Name")]
         public string Name { get; set; }
@@ -79,14 +77,17 @@ namespace GradedUnitMaster.Models
         [Required]
         [Display(Name = "Event Capacity")]
         public int Capacity { get; set; }
+       
 
-        [Required(ErrorMessage = "An event Location is Required")]
-        [Display(Name = "Event Location")]
-        public Location Location { get; set; }
+        public IEnumerable<SelectListItem>Locations { get; set; }
 
-        [Required]
-        [Display(Name = "Event Type")]
-        public What2Do.Data.Type Type { get; set; }
+        
+        public int LocationSelectedID { get; set; }
+
+        public IEnumerable<SelectListItem>Types { get; set; }
+       
+        
+        public int TypeSelectedID { get; set;}
     }
 
     

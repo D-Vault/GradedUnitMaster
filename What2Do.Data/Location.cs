@@ -7,6 +7,7 @@ namespace What2Do.Data
     public class Location
     {
 
+
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         public int LocationID { get; set; }
@@ -22,6 +23,8 @@ namespace What2Do.Data
        
         [StringLength(8)]
         public string Postcode { get; set; }
+
+        public virtual Business Business { get; set; }
 
         /// <summary>
         /// Default constructor 

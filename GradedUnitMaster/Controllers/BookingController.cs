@@ -33,7 +33,7 @@ namespace GradedUnitMaster.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var bookings = this.db.Bookings;
+            var bookings = this.db.Booking;
 
             var usersBookings = from b in bookings
                                 where b.Customer_Account.Id.Equals(

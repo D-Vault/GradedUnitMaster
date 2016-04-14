@@ -13,5 +13,8 @@ namespace What2Do.Data
         public DateTime Date { get; set; }
 
         public int bookings { get; set; }
+
+        public int EventId { get; set; }
+        public virtual Event Event { get; set; }
     }
 }

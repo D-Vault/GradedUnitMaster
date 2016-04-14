@@ -36,13 +36,13 @@ namespace What2Do.Data
 
         public int Capacity { get; set; }
 
-    
+        public int LocationId { get; set;}    
 
         public virtual Location Location { get; set; }
 
         
        
-       
+       public int TypeId { get; set; }
 
         public virtual Type Type { get; set; }
 

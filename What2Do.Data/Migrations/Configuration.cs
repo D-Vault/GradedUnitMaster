@@ -87,7 +87,7 @@ namespace What2Do.Data
                     //Passwords for accounts
                     string sPassword = staff.Email;
                     string cPassword = customer.Email;
-                    string bPassword = business.Email;
+                    string bPassword = business.Email+"1";
 
                     //These methods create the new users accounts 
                     CreateStaffUser(context, staff, sPassword);
@@ -100,7 +100,8 @@ namespace What2Do.Data
                     {
                         Street = business.Street,
                         Town = business.Town,
-                        Postcode = business.Postcode
+                        Postcode = business.Postcode, 
+                        Business = business
                     };
 
                     //Creating new Type
@@ -136,7 +137,8 @@ namespace What2Do.Data
                     newEvent.Dates.Add(new EventDates()
                     {
                         Date = DateTime.Now.AddDays(6),
-                        bookings = 30
+                        bookings = 30,
+                        Event = newEvent
                     });
 
                 //Create new review
@@ -157,27 +159,36 @@ namespace What2Do.Data
                     Business = business
                 };
 
+               
+                //Adds a new Booking to hold a collection of booking lines
+                Booking booking = new Booking()
+                {
+                    BookingDate = DateTime.Now,
+                    cost = 0, 
+                    Customer_Account = customer, 
+                    PaymentMethod = "Free Booking"
+                };
+
                 //Adds new booking for specific event 
                 BookingLine book1 = new BookingLine()
                 {
                     Event = newEvent,
                     EventBookingDate = newEvent.Dates
-                    .Where(e => e.Date.Equals(DateTime.Now.AddDays(6))).SingleOrDefault()
+                    .Where(e => e.Date.Equals(DateTime.Now.AddDays(6))).SingleOrDefault(),
+                    Booking = booking
                 };
 
-                Booking booking = new Booking()
-                {
-                    BookingDate = DateTime.Now,
-                };
 
-                booking.Bookings.Add(book1);
 
                 //Adds new entries to database
+                context.Booking.AddOrUpdate(booking);
+                context.BookingLine.AddOrUpdate(book1);
                 context.Reviews.AddOrUpdate(review2);
                 context.Reviews.AddOrUpdate(review);
-                    context.Locations.AddOrUpdate(location);
-                    context.Types.AddOrUpdate(type);
+                context.Locations.AddOrUpdate(location);
+                context.Types.AddOrUpdate(type);
                 context.Events.AddOrUpdate(newEvent);
+                
 
             }
         }

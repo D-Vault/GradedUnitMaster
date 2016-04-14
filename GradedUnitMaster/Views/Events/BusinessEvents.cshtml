@@ -1,0 +1,75 @@
+﻿@model IEnumerable<GradedUnitMaster.Models.EventViewModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Events </h2>
+
+@if (ViewBag.isBusiness == true)
+{
+    @Html.ActionLink("Add a new event", "Create", "Events", null, new { @class = "btn btn-default" })
+   
+}
+
+<hr />
+
+<div class="col-md-11">
+    <div class="thumbnail">
+        <h5>Event Types</h5>
+        <ul class="list-unstyled">
+            @foreach (var type in Model.Select(t => t.type).Distinct())
+            {
+                <li>
+                    @Html.ActionLink(@type.TypeName, "SearchByType", "Events", new { type = type }, new { @class = "btn btn-default" })
+                </li>
+            }
+        </ul>
+    </div>
+</div>
+@foreach (var item in Model)
+{
+
+    <div class="col-md-11">
+
+        <div class="thumbnail">
+
+            <div class="caption-full">
+                @if (item.price == 0)
+                {
+                    <h4 class="pull-right">Price: Free</h4>
+                }
+                else {
+                    <h4 class="pull-right">Price: £@Html.DisplayFor(m => item.price) GBP</h4>
+                }
+
+
+                <h3>
+                    @Html.DisplayFor(m => item.name)
+                </h3>
+                <h4>Capacity: @Html.DisplayFor(m => item.capacity)</h4>
+                <hr />
+                <p> Description: @Html.DisplayFor(m => item.description)</p>
+
+
+
+                <hr />
+                @if (item.restrictions.Equals(" "))
+                {
+                    <p>No Restrictions specified</p>
+                }
+                else {
+                    <p>Retrictions: @Html.DisplayFor(m => item.restrictions)</p>
+                }
+            </div>
+
+        </div>
+        @Html.ActionLink("Details..", "Details", "Events", new { id = item.Id }, new { @class = "btn btn-default" })
+        @Html.ActionLink("Add Dates", "AddDates", "Events", new { id= item.Id}, new { @class="btn btn-default"})
+
+    </div>
+
+}
+
+<h2>Business's Events</h2>
+

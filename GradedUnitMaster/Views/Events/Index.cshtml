@@ -8,8 +8,11 @@
 
 @if (ViewBag.isBusiness == true)
 {
-    @Html.ActionLink("Add a new event", "Create", "Event",null, new {@class="btn btn-default"})
+    @Html.ActionLink("Add a new event", "Create", "Events",null, new {@class="btn btn-default"})
+    @Html.ActionLink("Add Dates to your events", "BusinessEvents", "Events", null, new { @class = "btn btn-default" })
 }
+
+<hr />
 
 <div class="col-md-11">
     <div class="thumbnail">

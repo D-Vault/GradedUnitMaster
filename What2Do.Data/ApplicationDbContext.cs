@@ -14,7 +14,7 @@ namespace What2Do.Data
         /// </summary>
         public IDbSet<Staff> Staff { get; set; }
         public IDbSet<Event> Events { get; set; }
-        public IDbSet<Booking> Bookings { get; set; }
+        public IDbSet<Booking> Booking { get; set; }
         public IDbSet<Location> Locations { get; set; }
         public IDbSet<Type> Types { get; set; }
         public IDbSet<Business> Businesses { get; set; }
@@ -43,6 +43,6 @@ namespace What2Do.Data
             return new ApplicationDbContext();
         }
 
-        
+        public System.Data.Entity.DbSet<What2Do.Data.EventDates> EventDates { get; set; }
     }
 }

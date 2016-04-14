@@ -1,0 +1,55 @@
+﻿@model GradedUnitMaster.Models.EventDatesInputModel
+
+@section scripts{
+    @Scripts.Render("~/bundles/bootstrap-datetimepicker")
+
+}
+
+@section styles{
+    @Styles.Render("~/Context/bootstrap-datetimepicker")
+}
+
+
+
+<h2> Event Dates</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    
+    @Html.HiddenFor(m=> m.Event)
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.EventDate, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.EventDate, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.EventDate, "", new { @class = "text-danger" })
+            
+            
+        </div>
+    </div>
+
+
+    <script>
+            $(function () {
+
+                $('#EventDate').datetimepicker(
+                    {
+                        format: 'DD-MMM-YYYY HH:mm',
+                        sideBySide: true,
+                        showTodayButton: true
+                    });
+               
+            });
+    </script>
+
+    <div class="form-group">
+
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Add Date" class="btn btn-default" />
+        </div>
+    </div>
+           
+}
