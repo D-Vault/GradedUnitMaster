@@ -101,6 +101,11 @@ namespace GradedUnitMaster.Controllers
             return View(newEvent);
         }
 
+        /// <summary>
+        ///  Assigns values to new event before 
+        ///  Inputted details are entered
+        /// </summary>
+        /// <returns>The Event Creation Forum</returns>
         [HttpGet]
         public ActionResult Create()
         {
@@ -139,8 +144,8 @@ namespace GradedUnitMaster.Controllers
         /// <summary>
         /// Creates a new event
         /// </summary>
-        /// <param name="model">The Data to be inputted</param>
-        /// <returns></returns>
+        /// <param name="model">The Data inputted</param>
+        /// <returns>A success or fail view</returns>
         [HttpPost]
         public ActionResult Create(EventInputModel model)
         {

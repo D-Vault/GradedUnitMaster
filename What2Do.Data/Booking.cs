@@ -39,7 +39,8 @@ namespace What2Do.Data
        
         public int? PaymentID { get; set; }
 
-      
+        public bool PayentMade { get; set; }
+
         public virtual DateTime BookingDate { get; set; }
 
   

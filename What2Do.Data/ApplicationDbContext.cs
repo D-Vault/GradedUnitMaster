@@ -23,7 +23,7 @@ namespace What2Do.Data
         public IDbSet<Account>Accounts { get; set; }
         public IDbSet<CardDetails> Cards { get; set; }
         public IDbSet<Review> Reviews { get; set; }
-        
+        public IDbSet<EventDates> EventDates { get; set; }
         
 
         /// <summary>
@@ -43,6 +43,6 @@ namespace What2Do.Data
             return new ApplicationDbContext();
         }
 
-        public System.Data.Entity.DbSet<What2Do.Data.EventDates> EventDates { get; set; }
+        
     }
 }

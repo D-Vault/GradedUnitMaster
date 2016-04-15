@@ -7,12 +7,18 @@ using What2Do.Data;
 
 namespace GradedUnitMaster.Models
 {
+    /// <summary>
+    /// Displays the details of an event's date
+    /// </summary>
     public class EventDatesViewModel
     {
         public int Id { get; set; }
         public DateTime Date { get; set; }
         public int Bookings { get; set; }
 
+        /// <summary>
+        /// Assign values to the event dates
+        /// </summary>
         public static Expression<Func<EventDates, EventDatesViewModel>> ViewModel
         {
             get
@@ -25,7 +31,10 @@ namespace GradedUnitMaster.Models
             }
         }
     }
-
+     
+    /// <summary>
+    /// Gets the input details of the event date
+    /// </summary>
     public class EventDatesInputModel
     {
         [Display(Name = "Date")]

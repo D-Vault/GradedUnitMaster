@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace What2Do.Data
 {
+    /// <summary>
+    /// Table that holds the details of all accounts
+    /// </summary>
   [Table("Account")]
     public class Account : ApplicationUser
     {

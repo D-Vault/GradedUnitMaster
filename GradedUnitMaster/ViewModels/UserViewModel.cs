@@ -7,6 +7,9 @@ using What2Do.Data;
 
 namespace GradedUnitMaster.Models
 {
+    /// <summary>
+    /// Displays the details of the user
+    /// </summary>
     public class UserViewModel
     {
 
@@ -17,7 +20,9 @@ namespace GradedUnitMaster.Models
         public string Surname { get; set; }
 
         
-
+        /// <summary>
+        /// Assigns values to the user
+        /// </summary>
         public static Expression<Func<Account, UserViewModel>>ViewModel
         {
             get

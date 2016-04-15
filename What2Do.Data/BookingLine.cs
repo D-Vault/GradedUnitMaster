@@ -4,7 +4,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace What2Do.Data
 {
-    
+    /// <summary>
+    /// Displays the details of each booking
+    /// </summary>
     public class BookingLine
     {
         /// <summary>

@@ -17,43 +17,60 @@ namespace GradedUnitMaster.Models
         public string CartID { get; set; }
         public const string CartSessionkey = "CartID";
 
+        /// <summary>
+        /// Gets the current cart contents
+        /// </summary>
+        /// <param name="context">the current session</param>
+        /// <returns>booking cart details</returns>
         public static BookingCart GetCart(HttpContextBase context)
         {
             var cart = new BookingCart();
 
-            cart.CartID = cart.GetCartID(context);
+            cart.CartID = cart.GetCartId(context);
 
             return cart; 
         }
 
+        /// <summary>
+        /// Gets the current cart contents
+        /// </summary>
+        /// <param name="Controller">The current controller</param>
+        /// <returns>Booking cart details</returns>
         public static BookingCart GetCart(Controller Controller)
         {
             return GetCart(Controller.HttpContext);
         }
 
+        /// <summary>
+        /// Adds a new booking line to the cart
+        /// </summary>
+        /// <param name="model">The booking line to be added </param>
         public void AddToCart(BookingLineViewModel model)
         {
-            var cartItem = db.BookingLine.SingleOrDefault(b => b.cartId == CartID && b.EventId == model.EventId);
+            var cartItem = db.BookingLine.SingleOrDefault(b => b.cartId == CartID && b.EventID == model.EventId);
 
             if (cartItem == null)
             {
 
-                var eventDate = db.EventDates.Where(ed => ed.EventId == model.EventId && ed.Date == model.BookingDate)
+                var eventDate = db.EventDates.Where(ed => ed.EventId == model.EventId && ed.Id == model.BookingDate)
                     .SingleOrDefault();
 
                 cartItem = new BookingLine()
                 {
                     cartId = CartID,
                     EventID = model.EventId,
-                    BookingID = model.BookingId,
-                    EventBookingDate = eventDate
+                    EventDateId = model.BookingDate,
+
                 };
                 db.BookingLine.Add(cartItem);
             }
             db.SaveChanges();
         }
 
-
+        /// <summary>
+        /// Removes the booking line from cart
+        /// </summary>
+        /// <param name="id">The booking line unique ID</param>
         public void RemoveFromCart(int id)
         {
             var cartItem = db.BookingLine.SingleOrDefault(b => b.cartId == CartID && b.EventID == id);
@@ -70,6 +87,9 @@ namespace GradedUnitMaster.Models
             db.SaveChanges();
         }
 
+        /// <summary>
+        /// Empty's all contents from cart 
+        /// </summary>
         public void EmptyCart()
         {
             var cartItems = db.BookingLine.Where(c => c.cartId == CartID);
@@ -80,11 +100,19 @@ namespace GradedUnitMaster.Models
             db.SaveChanges();
         }
 
+        /// <summary>
+        /// Gets all booking lines in the cart 
+        /// </summary>
+        /// <returns>The list of booking lines</returns>
         public List<BookingLine> GetCartItems()
         {
-            return db.BookingLine.Where(b => b.cartId == CartID).Select(BookingLineViewModel.ViewModel).ToList();
+            return db.BookingLine.Where(b => b.cartId == CartID).ToList();
         }
 
+        /// <summary>
+        /// Gets the total ammount of booking lines in cart 
+        /// </summary>
+        /// <returns>the count of booking lines in cart</returns>
         public int GetCount()
         {
             int? count = db.BookingLine.Where(c=> c.cartId==CartID).Count();
@@ -92,6 +120,10 @@ namespace GradedUnitMaster.Models
             return count ?? 0;
         }
 
+        /// <summary>
+        /// gets the net sum for the cart 
+        /// </summary>
+        /// <returns>the total ammount calculated</returns>
         public decimal GetTotal()
         {
             decimal? total= 0 ;
@@ -106,20 +138,18 @@ namespace GradedUnitMaster.Models
             return total ?? decimal.Zero;
         }
 
-        public int CreateBooking(BookingViewModel model)
+        /// <summary>
+        /// Creates a new booking 
+        /// </summary>
+        /// <param name="booking">the booking to be added</param>
+        /// <returns>the booking Id of the new booking</returns>
+        public int CreateBooking(Booking booking)
         {
             decimal bookingTotal = 0;
 
             var items = GetCartItems();
             bookingTotal = GetTotal();
 
-            var booking = new Booking()
-            {
-                BookingDate = DateTime.Now,
-                Customer_Account = model.customer_account,
-                cost = bookingTotal,
-                PaymentMethod = model.paymentMethod
-            };
 
             db.Booking.Add(booking);
 
@@ -135,7 +165,12 @@ namespace GradedUnitMaster.Models
 
         }
 
-
+        /// <summary>
+        /// Gets the cart Id if one exists, 
+        /// otherwise it creates a new one 
+        /// </summary>
+        /// <param name="context">the current session</param>
+        /// <returns>the carts' ID</returns>
         public string GetCartId(HttpContextBase context)
         {
             if (context.Session[CartID] == null)
@@ -156,6 +191,10 @@ namespace GradedUnitMaster.Models
         }
 
 
+        /// <summary>
+        /// Moves the cart contents to a new cart 
+        /// </summary>
+        /// <param name="userName"></param>
         public void MigrateCart(string userName)
         {
             var cart = db.BookingLine.Where(b => b.cartId == CartID);

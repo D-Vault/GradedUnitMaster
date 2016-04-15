@@ -18,6 +18,7 @@ namespace What2Do.Data
         [Key]
         public int DetailID { get; set; }
        
+
         public string CardNo { get; set; }
                       
         public int ExpireMonth { get; set; }
@@ -25,6 +26,8 @@ namespace What2Do.Data
         public int ExpireYear { get; set; }
        
         public string CardType { get; set; }
+
+        public string AccountID { get; set; }
 
         public virtual Account Account { get; set; }
 

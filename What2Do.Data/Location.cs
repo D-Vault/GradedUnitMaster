@@ -3,10 +3,14 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace What2Do.Data
 {
-   
+   /// <summary>
+   /// Displays the details of the location
+   /// </summary>
     public class Location
     {
-
+        /// <summary>
+        /// Attributes
+        /// </summary>
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]

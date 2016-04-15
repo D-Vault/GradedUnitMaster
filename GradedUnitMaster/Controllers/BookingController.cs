@@ -15,9 +15,23 @@ namespace GradedUnitMaster.Controllers
     public class BookingController : HomeController
     {
 
-        public ActionResult Index()
+
+        /// <summary>
+        /// Displays the list of users current cart items for booking
+        /// </summary>
+        /// <returns>A list of cart items</returns>
+        public ActionResult CardSelection()
         {
-            var bookingCart = 
+            var bookingCart = BookingCart.GetCart(this.HttpContext);
+
+            var viewModel = new BookingCartViewModel
+            {
+                BookingItems = bookingCart.GetCartItems(),
+                CartTotal = bookingCart.GetTotal()
+            };
+
+            return View(viewModel);
+            
         }
 
 
@@ -25,18 +39,50 @@ namespace GradedUnitMaster.Controllers
 
 
         /// <summary>
-        /// 
+        /// Adds new booking to cart
         /// </summary>
         /// <returns>The view with the booking success Message</returns>
-        public ActionResult AddBooking()
+        public ActionResult AddBooking(BookingLineViewModel model)
         {
+            var eventSelected = db.Events.Single(e => e.EventID == model.EventId);
+
+            var cart = BookingCart.GetCart(this.HttpContext);
+
+            var addedBooking = new BookingLineViewModel()
+            {
+                EventId = model.EventId,
+                BookingDate = model.BookingDate
+            };
+
+            cart.AddToCart(addedBooking);
 
             
-            return Redirect("Info");
+            return RedirectToAction("Info");
 
         }
 
+        /// <summary>
+        /// Removes the BookingLine from the booking
+        /// </summary>
+        /// <param name="model">the bookingline to be removed</param>
+        /// <returns>a success message of booking removal</returns>
+        [HttpPost]
+        public ActionResult RemoveFromCart(BookingLineViewModel model)
+        {
+            var cart = BookingCart.GetCart(this.HttpContext);
 
+            string EventName = db.Events.FirstOrDefault(item => item.EventID == model.EventId).EventName;
+
+            cart.RemoveFromCart(model.EventId);
+
+            ViewBag.Message = EventName + " has been removed from cart";
+            return View("Info");
+        }
+
+        /// <summary>
+        /// Displays all bookings held by current user
+        /// </summary>
+        /// <returns>A list of users bookings, if any</returns>
         public ActionResult ViewBookings()
         {
             if (User.Identity.GetUserId() == null)
@@ -57,7 +103,7 @@ namespace GradedUnitMaster.Controllers
                                     customer_account = b.Customer_Account,
                                 };
                            
-            return View();
+            return View(usersBookings);
         }
         
     }

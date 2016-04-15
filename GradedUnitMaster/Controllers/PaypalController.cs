@@ -14,17 +14,17 @@ namespace GradedUnitMaster.Controllers
     public class PaypalController : MainController
     {
         private Payment Payment { get; set; }
-        private BookingViewModel booking { get; set; }
+       
         /// <summary>
         /// Displays the cards that the user can user, or add another
         /// </summary>
         /// <param name="Booking">The booking to be placed</param>
-        /// <returns></returns>
-        public ActionResult Index(BookingViewModel booking)
+        /// <returns>Nothing id there is no registered customer, or a list of cards if there is </returns>
+        /// 
+        public ActionResult Index(int bookingId)
         {
-            this.booking = booking;
-
-            if (this.IsBusiness() || this.IsCustomer() || this.getAccount() != null)
+            ViewBag.Booking = bookingId;
+            if ((this.IsBusiness() || this.IsCustomer()) && this.getAccount() != null)
             {
                 Account a = getAccount();
                 ICollection<CardDetails> cards = a.Cards;
@@ -38,31 +38,48 @@ namespace GradedUnitMaster.Controllers
             return View();
         }
 
-
-
+       
         /// <summary>
         /// Method executes the process of paying for a booking by card
         /// </summary>
         /// <returns>Result of the process</returns>
-        public ActionResult PaymentWithCreditCard(CardDetails card, Booking booking)
+        public ActionResult PaymentWithCreditCard(int cardId, int bookingId)
         {
             Account account = getAccount();
-          
+            
+            var bookings = db.BookingLine.Where(b=> b.BookingID == bookingId).ToList();
+
+            var card = db.Cards.SingleOrDefault(c => c.DetailID == cardId);
+
+            var cart = BookingCart.GetCart(this.HttpContext);
+
+
+            if (card == null)
+            {
+                return RedirectToAction("AddCard", "Card");
+            }
            
-            //create and item for which you are takign payment
-            //if you need to add more items in the list
-            //then you will need to create multiple item objects or use some loop to instanciate object
-            Item item = new Item();
-            item.name = "New Item";
-            item.currency = "GBP";
-            item.price = "5";
-            item.quantity = "1";
-            item.sku = "sku";
 
             //Now make a list of Item and add the above item to it 
             //you can create as many items as you want and add to this list
             List<Item> Items = new List<Item>();
-            Items.Add(item);
+            foreach(var booking in bookings)
+            {
+                var eventName = db.Events.SingleOrDefault(e => e.EventID == booking.EventID);
+
+                //create and item for which you are takign payment
+                //if you need to add more items in the list
+                //then you will need to create multiple item objects or use some loop to instanciate object
+                Item item = new Item();
+                item.name = eventName.EventName;
+                item.currency = "GBP";
+                item.price = eventName.EventPrice.ToString();
+                item.quantity = "1";
+                item.sku = "sku";
+
+                Items.Add(item);
+            }
+            
             ItemList itemList = new ItemList();
             itemList.items = Items;
 
@@ -93,14 +110,14 @@ namespace GradedUnitMaster.Controllers
             Details details = new Details()
             {
                 fee = "2",
-                subtotal = booking.cost.ToString(),
+                subtotal = (cart.GetTotal() + 2).ToString(),
                 tax = "0"
             };
 
             Amount amnt = new Amount()
             {
                 currency = "GBP",
-                total = "7",
+                total = (cart.GetTotal() + 2).ToString(),
                 details = details
             };
             Random rdm = new Random();
@@ -188,7 +205,7 @@ namespace GradedUnitMaster.Controllers
         /// Executes the paypal method of payment 
         /// </summary>
         /// <returns>The resultant view of payment success, or failure</returns>
-    public ActionResult PaymentWithPaypal(Booking booking)
+    public ActionResult PaymentWithPaypal(int id)
     {
         APIContext apiContext = PaypalConfig.GetAPIContext();
         try
@@ -203,7 +220,7 @@ namespace GradedUnitMaster.Controllers
 
                 var guid = Convert.ToString((new Random().Next(100000)));
 
-                var createdPayment = this.CreatePayment(apiContext, baseURI + "guid=" + guid);
+                var createdPayment = this.CreatePayment(apiContext, baseURI + "guid=" + guid, id);
 
                 var links = createdPayment.links.GetEnumerator();
 
@@ -259,18 +276,25 @@ namespace GradedUnitMaster.Controllers
         return this.Payment.Execute(apiContext, PaymentExecution);
     }
 
-    private Payment CreatePayment(APIContext apiContext, string redirectURL)
+    private Payment CreatePayment(APIContext apiContext, string redirectURL, int booking)
     {
-        var itemList = new ItemList() { items = new List<Item>() };
+            var bookings = db.BookingLine.Where(b => b.BookingID == booking);
 
-        itemList.items.Add(new Item()
-        {
-            name = "Item Name",
-            currency = "GBP",
-            price = "5",
-            quantity = "1",
-            sku = "sku"
-        });
+            var cart = BookingCart.GetCart(this.HttpContext);
+
+        var itemList = new ItemList() { items = new List<Item>() };
+            foreach (var singleBooking in bookings)
+            {
+                var bookingEvent = db.Events.SingleOrDefault(e => e.EventID == singleBooking.EventID);
+                itemList.items.Add(new Item()
+                {
+                    name = bookingEvent.EventName,
+                    currency = "GBP",
+                    price = bookingEvent.EventPrice.ToString(),
+                    quantity = "1",
+                    sku = "sku"
+                });
+            }
 
         var payer = new Payer()
         {
@@ -285,17 +309,17 @@ namespace GradedUnitMaster.Controllers
             return_url = redirectURL
         };
 
-        var details = new Details()
-        {
-            tax = "1",
-            shipping = "1",
-            subtotal = "5"
-        };
+            var details = new Details()
+            {
+                fee = "2",
+                shipping = "0",
+                subtotal = cart.GetTotal().ToString()
+            };
 
         var ammount = new Amount()
         {
             currency = "GBP",
-            total = "7",
+            total = (cart.GetTotal()+2).ToString(),
             details = details
         };
 

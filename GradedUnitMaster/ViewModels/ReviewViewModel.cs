@@ -4,6 +4,9 @@ using What2Do.Data;
 
 namespace GradedUnitMaster.Models
 {
+    /// <summary>
+    /// Displays the details of the review
+    /// </summary>
     public class ReviewViewModel
     {
         public int ReviewID { get; set; }
@@ -18,6 +21,9 @@ namespace GradedUnitMaster.Models
 
         public Business Business { get; set; }
 
+        /// <summary>
+        /// Assigns values to the ReviewViewModel
+        /// </summary>
         public static Expression<Func<Review, ReviewViewModel>>ViewModel
         {
             get

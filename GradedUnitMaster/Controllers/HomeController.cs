@@ -21,6 +21,10 @@ namespace GradedUnitMaster.Controllers
             
         }
 
+        /// <summary>
+        /// Displays details abour What2Do
+        /// </summary>
+        /// <returns></returns>
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
@@ -28,6 +32,10 @@ namespace GradedUnitMaster.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Displays What2Do contact details 
+        /// </summary>
+        /// <returns></returns>
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";
